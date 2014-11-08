@@ -1,3 +1,7 @@
+$(document).ready(function(){
+    console.log('loaded');
+});
+
 function addString(string) {
 	var value = $('#pinText').val();
 
@@ -24,5 +28,24 @@ function cancel () {
 }
 
 function confirm () {
-	value = $('#pinText')
+	value = $('#pinText').val();
+    $('#atm_page_login').hide("slow");
+    $('#atm_page_home').show();
+    
+}
+
+
+function pageViewManager() {
+    
+    var pages = {
+        login: 'atm_page_login',
+        home: 'atm_page_home',
+        
+    
+    }
+    var currentPage;
+    var nextPage;
+    var prevPage;
+    
+    
 }

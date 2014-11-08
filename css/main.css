@@ -2,7 +2,7 @@ h1 {
 	font-size: 50px;
 }
 
-#page
+#atm_page_login
 {
 	margin: 0 auto;
 	text-align: center;
@@ -13,7 +13,7 @@ h1 {
     border-top: none;
 }
 
-#keypad
+#atm_keypad
 {
 	border:2px solid black;
 	margin: 0 auto;
@@ -22,11 +22,11 @@ h1 {
 	height:400px;
 }
 
-#keypad. * {
+#atm_keypad. * {
 	position: absolute;
 }
 
-#keypad #captionID
+#atm_keypad #captionID
 {
 	text-align:center;
 	font-size: 40px;
@@ -36,13 +36,37 @@ h1 {
 
 }
 
-#keypad #pinLabel {
+#atm_keypad #pinLabel {
 	font-size: 30px;
 }
 
-#keypad input {
+#atm_keypad #pinText {
+	text-align:center;
+}
+
+#atm_keypad input {
 	float:left;
 	position: relative;
 	left: 45px;
 	font-size: 20px;
+    
+}
+
+.atm_hide {
+    visibility:hidden;
+    display:none;
+}
+
+.atm_show {
+    visibility: visible;
+    display:inherit;
+}
+
+#atm_master_container span h1{
+    
+}
+
+#atm_master_container{
+    margin: 0 auto;
+    text-align: center;
 }
