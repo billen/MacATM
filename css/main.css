@@ -1,0 +1,48 @@
+h1 {
+	font-size: 50px;
+}
+
+#page
+{
+	margin: 0 auto;
+	text-align: center;
+	width: 800px;
+}
+
+.table>tbody>tr>th, .table>tbody>tr>td {
+    border-top: none;
+}
+
+#keypad
+{
+	border:2px solid black;
+	margin: 0 auto;
+	text-align: center;
+	width:600px;
+	height:400px;
+}
+
+#keypad. * {
+	position: absolute;
+}
+
+#keypad #captionID
+{
+	text-align:center;
+	font-size: 40px;
+	color: #FF6138;
+	background-color: #BEEB9F;
+	float: top;
+
+}
+
+#keypad #pin {
+	font-size: 30px;
+}
+
+#keypad input {
+	float:left;
+	position: relative;
+	left: 45px;
+	font-size: 20px;
+}
