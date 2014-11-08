@@ -9,6 +9,8 @@
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
+    <script src="js/main.js"></script>
+
 
   </head>
   <body>
@@ -19,35 +21,35 @@
         <table id="keypadTable" class="table">
           <!-- <caption id="captionID">Enter PIN</caption> -->
            <tbody>
-                <tr> <label id="pin"> ENTER PIN</label> </tr></br>
+                <tr> <label id="pinLabel"> ENTER PIN</label> </tr></br>
                 <tr> 
-                  <input type="text" placeholder="ENTER PIN"> 
+                  <input id="pinText" type="text" placeholder="ENTER PIN"> 
                 </tr>
               <tr>
-                 <td> <button class="btn btn-lg btn-primary" type="button">1</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">2</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">3</button></td>
+                 <td> <button onclick="addString('1')" class="btn btn-lg btn-primary" type="button">1</button></td>
+                 <td><button onclick="addString('2')" class="btn btn-lg btn-primary" type="button">2</button></td>
+                 <td><button onclick="addString('3')" class="btn btn-lg btn-primary" type="button">3</button></td>
                  <td></td>
-                 <td><button class="btn btn-lg btn-danger" type="button">Cancel</button></td>
+                 <td><button onclick="cancel()" class="btn btn-lg btn-danger" type="button">Cancel</button></td>
               </tr>
               <tr>
-                 <td><button class="btn btn-lg btn-primary" type="button">4</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">5</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">6</button></td>
+                 <td><button onclick="addString('4')" class="btn btn-lg btn-primary" type="button">4</button></td>
+                 <td><button onclick="addString('5')" class="btn btn-lg btn-primary" type="button">5</button></td>
+                 <td><button onclick="addString('6')" class="btn btn-lg btn-primary" type="button">6</button></td>
                  <td></td>
-                 <td><button class="btn btn-lg btn-warning" type="button">Correct</button></td>
+                 <td><button onclick="correct()" class="btn btn-lg btn-warning" type="button">Correct</button></td>
               </tr>
               <tr>
-                 <td><button class="btn btn-lg btn-primary" type="button">7</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">8</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">9</button></td>
+                 <td><button onclick="addString('7')" class="btn btn-lg btn-primary" type="button">7</button></td>
+                 <td><button onclick="addString('8')" class="btn btn-lg btn-primary" type="button">8</button></td>
+                 <td><button onclick="addString('9')" class="btn btn-lg btn-primary" type="button">9</button></td>
               </tr>
                <tr>
-                 <td><button class="btn btn-lg btn-primary" type="button">.</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">0</button></td>
-                 <td><button class="btn btn-lg btn-primary" type="button">00</button></td>
+                 <td><button onclick="addString('.')" class="btn btn-lg btn-primary" type="button">.</button></td>
+                 <td><button onclick="addString('0')" class="btn btn-lg btn-primary" type="button">0</button></td>
+                 <td><button onclick="addString('00')" class="btn btn-lg btn-primary" type="button">00</button></td>
                  <td></td>
-                 <td><button class="btn btn-lg btn-success" type="button">Confirm</button></td>
+                 <td><button id="confirmButton" onclick="confirm()" class="btn btn-lg btn-inverse" type="button">Confirm</button></td>
               </tr>
            </tbody>
         </table>
