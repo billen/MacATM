@@ -114,3 +114,80 @@ h2 {
 #atm_account_select #accounts_chequing{
 
 }
+
+/* SINGLE ACCOUNT PAGE */
+#atm_single_account_view {
+	height: 400px;
+	padding:0;
+	width:600px;
+}
+
+#account_info_div {
+    width:49%;
+    height:100%;
+    border-right: 2px solid black;
+    margin: 0;
+    display:inline-block;
+    vertical-align: top;
+}
+
+#options_div {
+	
+	width:49%;
+	height:100%;
+	margin:0 ;
+	display:inline-block;
+	vertical-align: top;
+}
+
+#options_div div {
+	position:relative;
+	margin: 0 auto;
+	margin-top: 12%;
+	display:block;
+	width:50%;
+	text-align: center;
+}
+
+
+/* WITHDRAW PAGE */
+#atm_withdraw {
+	height:400px;
+}
+
+#withdraw div {
+	width:100px;
+	height:100px;
+	margin: 20px;
+	margin-top:40px;
+	display:block-inline;
+}
+
+#withdraw_custom {
+	width:200px;
+	height:50px;
+	position:relative;
+	top:100px;
+}
+
+/* DEPOSIT PAGE */
+#atm_deposit {
+	height:400px;
+}
+
+#deposit div {
+	width:100px;
+	height:100px;
+	margin: 20px;
+	margin-top:40px;
+	display:block-inline;
+}
+
+#deposit_custom {
+	width:200px;
+	height:50px;
+	position:relative;
+	top:100px;
+}
+
+

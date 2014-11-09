@@ -22,7 +22,7 @@
   <!-- ATM LOGIN PAGE -->
 
   <!-- start atm home page container div-->
-  <div id="atm_page_login" class="atm_page">
+  <div id="atm_page_login" class="atm_hide atm_page">
     
       <div id="atm_keypad">
         <table id="keypadTable" class="table">
@@ -69,8 +69,7 @@
 
 <!-- *********************************** -->
 <!-- ACCOUNT SELECT -->
-
-<!-- start atm online services home container div-->
+<!-- start atm account select container div-->
   <div id="atm_account_select" class="atm_hide atm_page">
  
       <h1 class="screenTitle">Account Select</h1>
@@ -127,7 +126,6 @@
 
 <!-- *********************************** -->
 <!-- ATM ONLINE SERVICES LOGIN PAGE -->
-
 <!-- start atm online services login container div-->
   <div id="atm_online_services_login" class="atm_hide atm_page">
       
@@ -142,7 +140,6 @@
 
 <!-- *********************************** -->
 <!-- ATM ONLINE SERVICES HOME -->
-
 <!-- start atm online services home container div-->
   <div id="atm_online_services_home" class="atm_hide atm_page">
       
@@ -156,6 +153,61 @@
 
 
 
+
+<!-- *********************************** -->
+<!-- SINGLE ACCOUNT VIEW -->
+<!-- start atm single account view container div-->
+  <div id="atm_single_account_view" class="atm_hide atm_page">
+
+    <div id="account_info_div">
+        <h2>Accounts Info</h2> <br/>
+        <span id="account_info_details">
+            <h4> Account Number </h4>
+            <h4> Account Balance </h4>
+        </span>
+    </div>
+    
+    <div id="options_div">
+      <div class="btn btn-primary">Withdraw</div> <br/>
+      <div class="btn btn-primary">Deposit</div> <br/>
+      <div class="btn btn-primary">Transfer</div> <br/>
+    </div>
+
+  </div>
+<!-- end atm online services home container div-->
+
+
+<!-- *********************************** -->
+<!-- WITHDRAW SCREEN -->
+<!-- start atm withdraw container div-->
+  <div id="atm_withdraw" class="atm_hide atm_page">
+      <h2>Click or Enter Withdraw Amount</h2>
+      <div id="withdraw">
+        <div href="#" class="btn btn-primary">$20</div> 
+        <div href="#" class="btn btn-primary">$40</div> 
+        <div href="#" class="btn btn-primary">$60</div> 
+        <div href="#" class="btn btn-primary">$80</div>
+      </div>  
+      <div id="withdraw_custom" href="#" class="btn btn-success">CUSTOM AMOUNT</div>
+  </div>
+<!-- end atm online services home container div-->
+
+
+
+<!-- *********************************** -->
+<!-- DEPOSIT SCREEN -->
+<!-- start atm deposit container div-->
+  <div id="atm_deposit" class="atm_page">
+      <h2> Click or Enter Deposit Amount </h2>
+      <div id="deposit">
+        <div href="#" class="btn btn-primary">$20</div> 
+        <div href="#" class="btn btn-primary">$40</div> 
+        <div href="#" class="btn btn-primary">$60</div> 
+        <div href="#" class="btn btn-primary">$80</div>
+      </div>  
+      <div id="deposit_custom" href="#" class="btn btn-success">CUSTOM AMOUNT</div>
+  </div>
+<!-- end atm online services home container div-->
 
 
   <!-- end atm master container div-->
