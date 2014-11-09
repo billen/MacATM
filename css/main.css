@@ -18,8 +18,8 @@ h2 {
 {
 	margin: 0 auto;
 	text-align: center;
-	width: 600px;	
-	border:2px solid black;
+	width: 100%;	
+	/*border:2px solid black;*/
 }
 
 
@@ -39,17 +39,14 @@ h2 {
 
 
 /* KEYPAD */
-#atm_keypad
-{
-	
+#atm_keypad {
 	margin: 0 auto;
 	text-align: center;
-	width:600px;
-	height:400px;
+	width:100%;
 }
 
-#atm_keypad #captionID
-{	
+
+#atm_keypad #captionID {	
 	text-align:center;
 	font-size: 40px;
 	color: #FF6138;
@@ -67,25 +64,23 @@ h2 {
 	text-align:center;
 }
 
-#atm_keypad input {
-	float:left;
-	position: relative;
-	left: 45px;
-	font-size: 20px;
-    
-}
 
+.atm_keypad_input {
+    width: 60%;
+    margin: 0 auto;
+}
 
 
 /* APPLIES TO SINGLE PAGES */
 
 /* MASTER CONTAINER */
-#atm_master_container{
+#atm_master_container {
     margin: 0 auto;
+    margin-top:50px;
     text-align: center;
-    
-    
-
+    width: 600px;
+    overflow: hidden;
+    z-index:999999;
 }
 
 
@@ -114,6 +109,7 @@ h2 {
 #atm_account_select #accounts_chequing{
 
 }
+
 
 /* SINGLE ACCOUNT PAGE */
 #atm_single_account_view {
@@ -188,6 +184,27 @@ h2 {
 	height:50px;
 	position:relative;
 	top:100px;
+
+/*Grid.css*/
+.row {    
+    margin-bottom: 20px;
 }
+
+.row .row {
+    margin-top: 10px;
+    margin-bottom: 0;
+    
+}
+
+[class*="col-"] {
+  padding-top: 15px;
+  padding-bottom: 15px;
+  background-color: #eee;
+  background-color: rgba(86,61,124,.15);
+  border: 1px solid #ddd;
+  border: 1px solid rgba(86,61,124,.2);
+
+}
+
 
 

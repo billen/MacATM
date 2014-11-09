@@ -14,54 +14,31 @@
 
   </head>
   <body>
-  <div id="atm_master_container">
+      
+  
+  <div class="container">
+  <div id="atm_master_container" class="panel panel-default">
   <!-- start atm master container -->
-  <span id = "atm_header"><h1>Bank ATM Machine</h1></span>
+  <div class="panel-heading">
+      <h2 class="panel-title">Bank ATM Machine</h1>
+  </div>
+  <!--span id = "atm_header"><h1>Bank ATM Machine</h1></span-->
 
   <!-- *********************************** -->
   <!-- ATM LOGIN PAGE -->
 
   <!-- start atm home page container div-->
-  <div id="atm_page_login" class="atm_hide atm_page">
+  <div id="atm_page_login" class="atm_page panel-body">
     
-      <div id="atm_keypad">
-        <table id="keypadTable" class="table">
-          <!-- <caption id="captionID">Enter PIN</caption> -->
-           <tbody>
-                <tr> <label id="pinLabel">ENTER PIN</label> </tr></br>
-                <tr> 
-                  <input id="pinText" type="password" maxlength="4" placeholder="ENTER PIN" autofocus> 
-                </tr>
-              <tr>
-                 <td> <button onclick="addString('1')" class="btn btn-lg btn-primary" type="button">1</button></td>
-                 <td><button onclick="addString('2')" class="btn btn-lg btn-primary" type="button">2</button></td>
-                 <td><button onclick="addString('3')" class="btn btn-lg btn-primary" type="button">3</button></td>
-                 <td></td>
-                 <td><button onclick="cancel()" class="btn btn-lg btn-danger" type="button">Cancel</button></td>
-              </tr>
-              <tr>
-                 <td><button onclick="addString('4')" class="btn btn-lg btn-primary" type="button">4</button></td>
-                 <td><button onclick="addString('5')" class="btn btn-lg btn-primary" type="button">5</button></td>
-                 <td><button onclick="addString('6')" class="btn btn-lg btn-primary" type="button">6</button></td>
-                 <td></td>
-                 <td><button onclick="correct()" class="btn btn-lg btn-warning" type="button">Correct</button></td>
-              </tr>
-              <tr>
-                 <td><button onclick="addString('7')" class="btn btn-lg btn-primary" type="button">7</button></td>
-                 <td><button onclick="addString('8')" class="btn btn-lg btn-primary" type="button">8</button></td>
-                 <td><button onclick="addString('9')" class="btn btn-lg btn-primary" type="button">9</button></td>
-              </tr>
-               <tr>
-                 <td><button onclick="addString('.')" class="btn btn-lg btn-primary" type="button">.</button></td>
-                 <td><button onclick="addString('0')" class="btn btn-lg btn-primary" type="button">0</button></td>
-                 <td><button onclick="addString('00')" class="btn btn-lg btn-primary" type="button">00</button></td>
-                 <td></td>
-                 <td><button id="confirmButton" onclick="confirm()" class="btn btn-lg btn-inverse" type="button">Confirm</button></td>
-              </tr>
-           </tbody>
-        </table>
-      </div> <br />
-      <button class="btn btn-lg btn-success" type="button">Proceed to Online Services</button>
+          
+      
+      <div class="atm_keypad_input">
+      <input id="accessCardText" class="form-control" type="text" maxlength="14" placeholder="ACCESS CARD ID" autofocus>
+      <input id="pinText" class="form-control" type="password" maxlength="4" placeholder="ENTER PIN" autofocus> 
+      </div>
+      
+      
+      <button id="confirmButton" onclick="confirm()" class="btn btn-lg btn-success" type="button">Confirm</button>
   </div>
 
 
@@ -82,8 +59,8 @@
         <td>Account #</td>
         <td>Amount </td>
       </thead>
-          <tr>
-            <td><button>1234567</button></td>
+          <tr >
+            <td><button onclick="goToPage('account')">1234567</button></td>
             <td>20.00</td> 
           </tr>
            <tr>
@@ -168,9 +145,9 @@
     </div>
     
     <div id="options_div">
-      <div class="btn btn-primary">Withdraw</div> <br/>
-      <div class="btn btn-primary">Deposit</div> <br/>
-      <div class="btn btn-primary">Transfer</div> <br/>
+      <div class="btn btn-primary" onclick="goToPage('trans_withdraw')">Withdraw</div> <br/>
+      <div class="btn btn-primary" onclick="goToPage('trans_deposit')">Deposit</div> <br/>
+      <div class="btn btn-primary" onclick="goToPage('trans_transfer')">Transfer</div> <br/>
     </div>
 
   </div>
@@ -197,7 +174,7 @@
 <!-- *********************************** -->
 <!-- DEPOSIT SCREEN -->
 <!-- start atm deposit container div-->
-  <div id="atm_deposit" class="atm_page">
+  <div id="atm_deposit" class="atm_hide atm_page">
       <h2> Click or Enter Deposit Amount </h2>
       <div id="deposit">
         <div href="#" class="btn btn-primary">$20</div> 
