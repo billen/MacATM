@@ -10,13 +10,19 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
+    
 
   </head>
   <body>
   <div id="atm_master_container">
   <!-- start atm master container -->
   <span id = "atm_header"><h1>Bank ATM Machine</h1></span>
-  <div id="atm_page_login">
+
+  <!-- *********************************** -->
+  <!-- ATM LOGIN PAGE -->
+
+  <!-- start atm home page container div-->
+  <div id="atm_page_login" class="atm_page">
     
       <div id="atm_keypad">
         <table id="keypadTable" class="table">
@@ -24,7 +30,7 @@
            <tbody>
                 <tr> <label id="pinLabel">ENTER PIN</label> </tr></br>
                 <tr> 
-                  <input id="pinText" type="password" placeholder="ENTER PIN" autofocus> 
+                  <input id="pinText" type="password" maxlength="4" placeholder="ENTER PIN" autofocus> 
                 </tr>
               <tr>
                  <td> <button onclick="addString('1')" class="btn btn-lg btn-primary" type="button">1</button></td>
@@ -58,14 +64,99 @@
       <button class="btn btn-lg btn-success" type="button">Proceed to Online Services</button>
   </div>
 
-  <!-- start atm home page container div-->
-  <div id="atm_page_home" class="atm_hide">
-      <div id="atm_keypad">
-        
-      </div> <br />
+
+
+
+<!-- *********************************** -->
+<!-- ACCOUNT SELECT -->
+
+<!-- start atm online services home container div-->
+  <div id="atm_account_select" class="atm_hide atm_page">
+ 
+      <h1 class="screenTitle">Account Select</h1>
+
+      <h3>Chequing</h3>
+
+      <table id="accounts_chequing" class="table table-bordered">
+      <tbody>
+      <thead> 
+        <td>Account #</td>
+        <td>Amount </td>
+      </thead>
+          <tr>
+            <td><button>1234567</button></td>
+            <td>20.00</td> 
+          </tr>
+           <tr>
+             <td><button>1234568</button></td>
+            <td>60.00</td> 
+          </tr>
+       
+      </tbody> 
+      </table>
+
+      <h3>Savings</h3>
+
+      <table id="accounts_savings" class="table table-bordered">
+      <tbody>
+      <thead> 
+        <td>Account #</td>
+        <td>Amount </td>
+      </thead>
+          <tr>
+            <td><button>1234569</button></td>
+            <td>70.00</td> 
+          </tr>
+           <tr>
+            <td><button>1234560</button></td>
+            <td>75.00</td> 
+          </tr>
+        </tr>
+          <tr>
+            <td><button>1234564</button></td>
+            <td>80.00</td> 
+          </tr>
+        </tr>
+      </tbody> 
+      </table>
+  
       
   </div>
-  <!-- end atm home page container div-->
+<!-- end atm online services home container div-->
+
+
+<!-- *********************************** -->
+<!-- ATM ONLINE SERVICES LOGIN PAGE -->
+
+<!-- start atm online services login container div-->
+  <div id="atm_online_services_login" class="atm_hide atm_page">
+      
+
+      <div id="atm_keypad">
+        
+      </div> 
+      
+  </div>
+<!-- end atm online services home container div-->
+
+
+<!-- *********************************** -->
+<!-- ATM ONLINE SERVICES HOME -->
+
+<!-- start atm online services home container div-->
+  <div id="atm_online_services_home" class="atm_hide atm_page">
+      
+
+      <div id="atm_keypad">
+        
+      </div> 
+      
+  </div>
+<!-- end atm online services home container div-->
+
+
+
+
 
   <!-- end atm master container div-->
   </div>

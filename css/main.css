@@ -1,33 +1,55 @@
+
+
+/* APPLIES TO FULL UI */
+
 h1 {
 	font-size: 50px;
 }
 
-#atm_page_login
+h2 {
+	font-size:30px;
+}
+
+.screenTitle {
+	font-size: 30px;
+}
+
+.atm_page
 {
 	margin: 0 auto;
 	text-align: center;
-	width: 800px;
+	width: 600px;	
+	border:2px solid black;
 }
+
 
 .table>tbody>tr>th, .table>tbody>tr>td {
     border-top: none;
 }
 
+.atm_hide {
+    visibility:hidden;
+    display:none;
+}
+
+.atm_show {
+    visibility: visible;
+    display:inherit;
+}
+
+
+/* KEYPAD */
 #atm_keypad
 {
-	border:2px solid black;
+	
 	margin: 0 auto;
 	text-align: center;
 	width:600px;
 	height:400px;
 }
 
-#atm_keypad. * {
-	position: absolute;
-}
-
 #atm_keypad #captionID
-{
+{	
 	text-align:center;
 	font-size: 40px;
 	color: #FF6138;
@@ -39,6 +61,7 @@ h1 {
 #atm_keypad #pinLabel {
 	font-size: 30px;
 }
+
 
 #atm_keypad #pinText {
 	text-align:center;
@@ -52,21 +75,42 @@ h1 {
     
 }
 
-.atm_hide {
-    visibility:hidden;
-    display:none;
-}
 
-.atm_show {
-    visibility: visible;
-    display:inherit;
-}
 
-#atm_master_container span h1{
-    
-}
+/* APPLIES TO SINGLE PAGES */
 
+/* MASTER CONTAINER */
 #atm_master_container{
     margin: 0 auto;
     text-align: center;
+    
+    
+
+}
+
+
+/* ACCOUNT SELECT PAGE */
+#atm_account_select {
+
+}
+
+#atm_account_select h1 {
+	text-align: center;
+}
+
+#atm_account_select h3 {
+	text-align: left;
+	padding-left: 10px;
+}
+
+#atm_account_select table {
+
+}
+
+#atm_account_select #accounts_savings {
+
+}
+
+#atm_account_select #accounts_chequing{
+
 }

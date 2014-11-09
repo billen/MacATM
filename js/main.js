@@ -1,14 +1,19 @@
 $(document).ready(function(){
     console.log('loaded');
+
 });
+
+var confirmEnable = false;
 
 function addString(string) {
 	var value = $('#pinText').val();
 
 	if (value.length + 1 <= 4){
 		$('#pinText').val(value + string);
-		if (value.length + 1 == 4)
-		  $('#confirmButton').removeClass('btn-inverse').addClass('btn-success');	
+		if (value.length + 1 == 4){
+		  $('#confirmButton').removeClass('btn-inverse').addClass('btn-success');
+		  confirmEnable = true;	
+		}
 	}
 
 
@@ -29,23 +34,28 @@ function cancel () {
 
 function confirm () {
 	value = $('#pinText').val();
-    $('#atm_page_login').hide("slow");
-    $('#atm_page_home').show();
+	if (value.length == 4 && confirmEnable == true)
+	{
+		
+		$('#atm_page_login').toggle('slide');
+   	 	$(pages['home']).show().removeClass('atm_hide');
+	}
+   
     
 }
 
-
-function pageViewManager() {
-    
-    var pages = {
-        login: 'atm_page_login',
-        home: 'atm_page_home',
+ var pages = {
+        login: '#atm_page_login',
+        home: '#atm_account_select',
         
     
     }
+function pageViewManager() {
+    
+   
     var currentPage;
     var nextPage;
     var prevPage;
     
-    
-}
+} 
+
