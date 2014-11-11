@@ -1,23 +1,42 @@
 $(document).ready(function(){
     console.log('loaded');
+    var onFocusKeypad = false;
     
     /*enable key pad for the ids below*/
-    initAtmKeyPad(['#accessCardText', '#pinText']);
+    $(['#accessCardText', '#pinText']).each(function(key, value){
+        $(value).focus(function(event){
+            showAtmKeyPad(this);
+        })
+        .focusout(function(){
+            if (onFocusKeypad == false){
+                //removeAtmKeyPad();
+            }
+        });
+    });
     
-    /*fous on accesscard inout field on page load*/
-    $('#accessCardText').focus();
+    $('#atm_keypad').focus(function(){
+        console.log('focus keypad');
+        onFocusKeypad = true;
+     }).focusout(function () {
+        console.log('focus out keypad');
+        onFocusKeypad = false;
+     });
+       
     
-    /*json of mock user accounts data*/
-    var json = {
-        "Account1":[
-            {"Number":"1234567","Amount":"20.00", "Type":"Chequing"},
-            {"Number":"1234568","Amount":"60.00", "Type":"Chequing"},
-            {"Number":"1234569","Amount":"70.00", "Type":"Savings"},
-            {"Number":"1234560","Amount":"75.00", "Type":"Savings"},
-            {"Number":"1234564","Amount":"80.00", "Type":"Savings"}
-    ]};
+    //$('#accessCardText').focus
+  
+    //$('.atm_keypad_input').append($(getKeyPad()));
+    
+     var json = {"Account1":[
+	{"Number":"1234567","Amount":"20.00", "Type":"Chequing"},
+	{"Number":"1234568","Amount":"60.00", "Type":"Chequing"},
+	{"Number":"1234569","Amount":"70.00", "Type":"Savings"},
+	{"Number":"1234560","Amount":"75.00", "Type":"Savings"},
+	{"Number":"1234564","Amount":"80.00", "Type":"Savings"}
+]};
    
 });
+
 
 /*Page view manageer functions and variables*/
 var viewController = new PageViewManager({
@@ -35,12 +54,13 @@ var viewController = new PageViewManager({
 });
 
 /*Page navigation helpers*/
-function goToPage(pageName) {
+function goToPage(pageName){
+    console.log(pageName);
     viewController.goToPage(pageName);
 }
 
 /*Page navigation helpers*/
-function goBackOnePage() {
+function goBackOnePage(){
     viewController.goBack();
 }
 
@@ -143,9 +163,6 @@ function PageList(listItems) {
     t.setList(listItems);
 }
 
-/*parent container for the ATM*/
-var ATM_UI_WINDOW = '#atm_master_container';
-
 function getKeyPad(elem) {
     /*the ID of the input elemnt to append keypad input to*/
     var targetElemId = $(elem).attr('id');
@@ -206,66 +223,83 @@ function getKeyPad(elem) {
     
     $(keyPad).append(row);
     
-   /* <div class="alert alert-danger alert-dismissible fade in" role="alert">
-      <button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">×</span><span class="sr-only">Close</span></button>
-      <button type="button" class="btn btn-danger">Take this action</button>
-      <button type="button" class="btn btn-default">Or do this</button>
-    </div>*/
-        
-    var ret = $('<span id="atm_keypad_span"/>').append($('<div id="atm_keypad" />')
-                                                       .append('<button type="button" class="close" onclick="removeAtmKeyPad()"><span >×&nbsp;&nbsp;</span><span class="sr-only">Close</span></button>')
-                                                       .append(keyPad));
     
-    //ret.offset().top = elem.offsetBottom;
-    var _top = elem.offsetTop + ($(elem).outerHeight());
-    var _left = $(ATM_UI_WINDOW).offset().left + 50; // atm window offset + 5px for padding;
-    var _width = $(ATM_UI_WINDOW).outerWidth() - 100; //atm window width - 5 for padding  - 5 to correct for left offset
     
-    $(ret).css({position: 'absolute', top: (_top+'px') , left: (_left+'px'), margin: '0', width: (_width+'px'), height: 'auto'});
-    
-    return  ret;  
+    return  $('<div id="atm_keypad" class = ""/>').append(keyPad);  
 }
 
-var keepKeypadAlive = false;
 
-function showAtmKeyPad(elem, keypadClick){
-    var keyPad = $(getKeyPad(elem));
-    
-    $(keyPad).click(keypadClick);
-    
-    $(elem).parent().append(keyPad);
+function showAtmKeyPad(elem){
+    $(elem).parent().append($(getKeyPad(elem)));
 }
 
 function removeAtmKeyPad(){
-    $('#atm_keypad_span').remove();
+    $('#atm_keypad').remove();
 }
 
-function initAtmKeyPad(inputIds/*array containing ids of input that require the key pad*/) {
+
+
+function getKeyPad_div(elem) {/*archived function*/
+    /*the ID of the input elemnt to append keypad input to*/
+    var targetElemId = $(elem).attr('id');
     
-    $(inputIds).each(function(key, value){
-        $(value).focus(function(event){
-            showAtmKeyPad(this, function () {
-                //console.log('click keypad');
-                //console.log(arguments);
-                if(!keepKeypadAlive){
-                    keepKeypadAlive = true;
-                }
+    var keyPad = $('<div id="atm_keypad" class = "container"/>');
+    
+    /*num is the key pad number starting from 1*/
+    var num = 1;
+    var row = undefined;
+    
+    /*For loop to define the first three columns ie 1-9*/
+    for(var i = 0; i < 3; i++) {
+        
+        row = $('<div class="row"/>');
+        
+        for(var c = 0; c < 3; c++){
+            var e = $('<div class="btn col-xs-1 btn btn-lg btn-primary"/>');
+            e.html(num);
+            num = num + 1;
+            $(e).click(function(){
+                addString(this, targetElemId);
             });
-            
-            keepKeypadAlive = true;
-        })
-        .focusout(function(){
-            keepKeypadAlive = false;
-        });
-    });
-    
-    $(document).click(function () {
-        //console.log('click document');
-        //console.log(arguments);
-        if (!keepKeypadAlive){
-            removeAtmKeyPad();
-        }else{
-            keepKeypadAlive = false;
+        
+            $(row).append(e);
         }
+    
+        $(keyPad).append(row);
+
+    }
+    
+    /*add the last row: Cancel 0 Correct*/
+    
+    row = $('<div class="row"/>');
+    
+    var e = $('<div class="btn col-xs-1 btn btn-lg btn-primary"/>');
+    e.html("Correct");
+    $(e).click(function(){
+        correct(targetElemId);
     });
+        
+    $(row).append(e);
+    
+    e = $('<div class="btn col-xs-1 btn btn-lg btn-primary"/>');
+    e.html(0);
+    $(e).click(function(){
+        addString(this, targetElemId);
+    });
+        
+    $(row).append(e);
+    
+    e = $('<div class="btn col-xs-1 btn btn-lg btn-primary"/>');
+    e.html("Cancel");
+    $(e).click(function(){
+        cancel(targetElemId);
+    });
+        
+    $(row).append(e);
+    
+    $(keyPad).append(row);
+    
+    
+    
+    return keyPad;  
 }

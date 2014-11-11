@@ -49,6 +49,10 @@ h2 {
     border: 1px solid #696969;
 }
 
+#atm_keypad table tr td{
+	width:33.33%;
+}
+
 
 #atm_keypad #captionID {	
 	text-align:center;
