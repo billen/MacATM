@@ -2,7 +2,7 @@ $(document).ready(function(){
     console.log('loaded');
     
     /*enable key pad for the ids below*/
-    initAtmKeyPad(['#accessCardText', '#pinText','#onlineAccessText','#onlinePinText','#onlineOtherAccount','#onlineAmount']);
+    initAtmKeyPad(['#accessCardText', '#pinText','#onlineAccessText','#onlinePinText','#onlineOtherAccount','#onlineAmount','#customWithdrawAmount','#customDepositAmount']);
     
     //viewController.goToPage(viewController.startPage, $('#accessCardText').focus);
     
@@ -57,7 +57,8 @@ var viewController = new PageViewManager({
         trans_withdraw: '#atm_withdraw',
         trans_deposit: '#atm_deposit',
         online_services_home: '#atm_online_services_home',
-        success: '#success_page'
+        success: '#success_page',
+        quick_withdraw: '#atm_withdraw_quick'
         
     },
     navBar : {
@@ -80,7 +81,11 @@ var viewController = new PageViewManager({
         },     
         online_services_home: {
             back:  function(){goToPage('home')}
+        },
+        quick_withdraw: {
+            back: function(){goToPage('home')}
         }
+        
         
     },
     onPageShow : {
@@ -311,6 +316,8 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                           jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
                           $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
                           notify ("Funds transferred","success");
+                          addAttribute(['#online_services_account_from'],jsonArray,"Number");
+                          addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
                     } else {
                         notify ("No amount to transfer was added","warning");
                 } 
@@ -331,6 +338,8 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                 notify ("Deposit successful","success")
                 goToPage('home');
             },delay); 
+            addAttribute(['#online_services_account_from'],jsonArray,"Number");
+            addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
             
             break;
         case 't':
@@ -348,6 +357,30 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                      notify ("Withdraw Successful ","success")
                     goToPage('home');
                 },delay); 
+
+                    addAttribute(['#online_services_account_from'],jsonArray,"Number");
+    addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
+                 }
+           
+
+            break;
+        case 'qw':
+             var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+                var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
+                if (amount > amountInAccount) {
+                     notify("Insufficient funds","warning");
+                 } else {
+                    notify("Ejecting Card Now","danger");
+                     var delay=3000;//1 seconds
+                    setTimeout(function(){
+                    notify("Dispensing Money Now","success");
+                     jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
+                     notify ("Withdraw Successful. Logging Out ","success")
+                    goToPage('login');
+                },delay); 
+
+                    addAttribute(['#online_services_account_from'],jsonArray,"Number");
+                addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
                  }
            
 
@@ -526,7 +559,17 @@ function getAtmNavBar(navItems/*array of nav options*/) {
                 .append('<span class="icon-bar"></span>'))
         .append(
             $('<a class="navbar-brand" href="" title="logout"><span>CARD INSERTED - EJECT YOUR CARD</span></a>')
-                .click(function(){goToPage('login');})
+                .click(function(){
+
+
+                    notify ('Ejecting card now','danger');
+                    var delay=3000;//1 seconds
+                    setTimeout(function(){
+                   // goToPage('login');
+                    },delay); 
+
+        
+                })
                 .mouseover(function(){$(this).css('color', 'green');})
                 .mouseout(function(){$(this).css('color', '#FFF');})
                
@@ -625,7 +668,7 @@ function getAtmAccounts() {
             ).append(
                 $('<td><span class="btn btn-default btn-sml">Quick Withdraw</td>')
                     .click(function(event){
-                        goToPage('trans_withdraw');
+                        goToPage('quick_withdraw');
                         event.stopPropagation();
                     })
             );

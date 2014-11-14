@@ -152,11 +152,29 @@
         <div onclick="transaction(80,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$80</span></div> 
         <div onclick="transaction(100,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$100</span></div> 
       </div>  
-      <div id="withdraw_custom" href="#" class="btn btn-success">CUSTOM AMOUNT</div>
+      <div class="atm_keypad_input">
+      <legend class="atm_legend">Custom Amount</legend>
+      <input id="customWithdrawAmount" class="form-control" type="text" maxlength="14" placeholder="Enter custom amount of money to withdraw" autofocus>
+      </div>
+      <div id="withdraw_custom" onclick="transactionWrapper('customWithdrawAmount','123-45-67','','ww','');" class="btn btn-success">CUSTOM AMOUNT</div>
   </div>
 <!-- end atm online services home container div-->
 
-
+<!-- *********************************** -->
+<!-- QUICK WITHDRAW SCREEN -->
+<!-- start atm withdraw container div-->
+  <div id="atm_withdraw_quick" class="atm_hide atm_page">
+      <h2> Click Quick Withdraw Amount</h2>
+      <div id="withdraw">
+       <div onclick="transaction(20,'123-45-67','','qw','');" class="btn btn-primary"><span class="moneyAmount">$20</span></div> 
+        <div onclick="transaction(40,'123-45-67','','qw','');" class="btn btn-primary"><span class="moneyAmount">$40</span></div> 
+        <div onclick="transaction(60,'123-45-67','','qw','');" class="btn btn-primary"><span class="moneyAmount">$60</span></div> 
+        <div onclick="transaction(80,'123-45-67','','qw','');" class="btn btn-primary"><span class="moneyAmount">$80</span></div> 
+        <div onclick="transaction(100,'123-45-67','','qw','');" class="btn btn-primary"><span class="moneyAmount">$100</span></div> 
+      </div>  
+   
+  </div>
+<!-- end atm online services home container div-->
 
 <!-- *********************************** -->
 <!-- DEPOSIT SCREEN -->
@@ -170,7 +188,13 @@
         <div onclick="transaction(80,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$80</span></div> 
         <div onclick="transaction(100,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$100</span></div> 
       </div>  
-      <div id="deposit_custom" href="#" class="btn btn-success">Custom Amount</div>
+      <div class="atm_keypad_input">
+      <legend class="atm_legend">Custom Amount</legend>
+      <input id="customDepositAmount" class="form-control" type="text" maxlength="14" placeholder="Enter custom amount of money to deposit" autofocus>
+      </div>
+      <div id="deposit_custom" onclick="transactionWrapper('customDepositAmount','123-45-67','','d','');" class="btn btn-success">CUSTOM AMOUNT</div>
+
+     
   </div>
 <!-- end atm online services home container div-->
 
