@@ -13,13 +13,7 @@ $(document).ready(function(){
     /*fous on accesscard inout field on page load*/
     //();
     
-    /*json of mock user accounts data*/
-    var jsonArray = {"accounts": [
-            {"Number":"123-45-67","Amount":"$20000", "Type":"Chequing"},
-            {"Number":"123-45-68","Amount":"$6000", "Type":"Chequing"},
-            {"Number":"123-45-69","Amount":"$7000", "Type":"Savings"},
-            {"Number":"123-45-61","Amount":"$7500", "Type":"Savings"},
-    ]};
+ 
 
     addAttribute(['#accountNum1','#accountNum2','#accountNum3','#accountNum4'],jsonArray,"Number");
     addAttribute(['#amountNum1','#amountNum2','#amountNum3','#amountNum4'],jsonArray,"Amount");
@@ -29,6 +23,14 @@ $(document).ready(function(){
 
 /*Globals/CONSTANTS
 *************/
+
+   /*json of mock user accounts data*/
+    var jsonArray = {"accounts": [
+            {"Number":"123-45-67","Amount":"2000", "Type":"Chequing"},
+            {"Number":"123-45-68","Amount":"6000", "Type":"Chequing"},
+            {"Number":"123-45-69","Amount":"7000", "Type":"Savings"},
+            {"Number":"123-45-61","Amount":"7500", "Type":"Savings"},
+    ]};
 
 /*parent container for the ATM*/
 var ATM_UI_WINDOW = '#atm_master_container';
@@ -44,7 +46,6 @@ var viewController = new PageViewManager({
         account: '#atm_single_account_view',
         trans_withdraw: '#atm_withdraw',
         trans_deposit: '#atm_deposit',
-        online_services_login: '#atm_online_services_login',
         online_services_home: '#atm_online_services_home',
         success: '#success_page'
         
@@ -237,13 +238,37 @@ function addAttribute(inputIDs,json,attribute) {
 
 }
 
+function notify (message) {
+    $('.top-right').notify({
+                     message: { text: message },
+                     fadeOut: { enabled: true, delay: 3000 },
+                     type:"warning"
+                  }).show();
+}
+
 /*
 * Withdraw / deposit money
 */
-function transaction (amount, accountNumber, secondAccountNumber, type){
+function transaction (amount, accountNumber, secondAccountNumber, type, amountID){
     
     switch (type) {
         case 'w':
+                
+            if (secondAccountNumber != "")
+            {
+                var index = parseInt(searchTextinJSON(jsonArray,accountNumber));    
+                var amountInAccount = jsonArray.accounts[index]["Amount"];
+                if (amount > amountInAccount) {
+                    notify("Insufficient funds");
+                } else {
+                    if (amount != "NaN")
+                        jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
+                        $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
+                } 
+            }  else {
+                notify("Account Number missing");
+            }
+         
             break;
         case 'd':
             break;
@@ -254,6 +279,24 @@ function transaction (amount, accountNumber, secondAccountNumber, type){
             break;
     }
 }
+
+// Returns the index in the json array where the text exists
+function searchTextinJSON(json,attr,text){
+    jsonArr = json.accounts;
+    for (i in jsonArr){
+        if(jsonArr[i][attr] == text)
+            return i;
+    }
+}
+
+function transactionWrapper (amountID,accountID,secondAccountID, type,amountDisplayID) {
+    var amount = $('#'+amountID).val();
+    var account = $('#'+accountID).html();
+    var secondAccount = $('#'+secondAccountID).val();
+    transaction(parseInt(amount),account,secondAccount,type,amountDisplayID);
+
+}
+
 
 function showAtmKeyPad(elem, keypadClick) {
     removeAtmKeyPad();

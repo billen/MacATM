@@ -10,6 +10,10 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/main.css" rel="stylesheet">
 
+   
+    <!-- Notify CSS -->
+    <link href="css/bootstrap-notify.css" rel="stylesheet">
+
     
 
   </head>
@@ -30,6 +34,8 @@
       <div style="float:clear;"></div>
   </div>
       
+
+  <div class='notifications top-right'></div>
   
       
       <!--
@@ -90,7 +96,7 @@
       <button id="confirmButton" onclick="confirm()" class="btn btn-lg btn-success" type="button">Confirm</button>
       <br/>
       <br/>
-      <button id="onlineServices" onclick="goToPage('online_services_login')" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>
+     
 
   </div>
 
@@ -101,8 +107,8 @@
 <!-- ACCOUNT SELECT -->
 <!-- start atm account select container div-->
   <div id="atm_account_select" class="atm_hide atm_page">
- 
-      <h3 >Select account to proceed</h3>
+       
+      <h3 >Select account or operation to proceed</h3>
 
       <div class="atm_account atm_account_chequing">
           <span class="">Chequing</span>
@@ -162,6 +168,11 @@
       </table>
           
       </div>
+      <br>
+      <br>
+      <br>
+      <br>
+      <button id="onlineServices" onclick="goToPage('online_services_home')" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>
       
   </div>
 <!-- end atm online services home container div-->
@@ -221,22 +232,6 @@
 <!-- end atm online services home container div-->
 
 
-<!-- *********************************** -->
-<!-- ATM ONLINE SERVICES LOGIN PAGE -->
-<!-- start atm online services login container div-->
-  <div id="atm_online_services_login" class="atm_hide atm_page">
-      <h2> Login to Online Services </h2>
-      <div class="atm_keypad_input">
-      <legend class="atm_legend">Access Card</legend>
-      <input id="onlineAccessText" class="form-control" type="text" maxlength="14" placeholder="Enter access card ID" autofocus>
-      <legend class="atm_legend">Online Password</legend>
-      <input id="onlinePinText" class="form-control" type="password" maxlength="14" placeholder="Enter pin" autofocus> 
-      </div>
-      <br/>
-      <button id="confirmButton" onclick="goToPage('online_services_home')" class="btn btn-lg btn-success" type="button">Confirm</button>
-  </div>
-<!-- end atm online services home container div-->
-
 
 <!-- *********************************** -->
 <!-- SUCCESS PAGE -->
@@ -266,7 +261,7 @@
       <input id="onlineAmount" class="form-control" type="text" maxlength="14" placeholder="Enter amount" autofocus>
       </div>
       <br/>
-      <button id="confirmButton" onclick="goToPage('success')" class="btn btn-lg btn-success" type="button">Transfer</button>
+      <button id="confirmButton" onclick="transactionWrapper('onlineAmount','online_services_account_from','onlineOtherAccount','w','online_services_account_balance');" class="btn btn-lg btn-success" type="button">Transfer</button>
     </div>
       
   </div>
@@ -288,6 +283,8 @@
 
     <!-- MacATM Javascript files (uses JQuery)-->
     <script src="js/main.js"></script>
+
+    <script src="js/bootstrap-notify.js"></script>
 
   </body>
 </html>
