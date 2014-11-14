@@ -365,13 +365,13 @@ function getAtmNavBar(navItems/*array of nav options*/) {
                 .append('<span class="icon-bar"></span>')
                 .append('<span class="icon-bar"></span>')
                 .append('<span class="icon-bar"></span>'))
-        .append($('<a class="navbar-brand" href="" title="logout"><span style="width: 150px;white-space:wrap;">Return your card</a>')
+        .append(
+            $('<a class="navbar-brand" href="" title="logout"><span style="width: 150px;white-space:wrap;">Return your card</a>')
                 .click(function(){goToPage('login');})
-                .mouseover(function(){$(this).css('color', 'green')})
-                .mouseout(function(){$(this).css('color', '#777')})
+                .mouseover(function(){$(this).css('color', 'green');})
+                .mouseout(function(){$(this).css('color', '#777');})
                
                );
-    
     
     temp_div_container.append(temp_div);  
     

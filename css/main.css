@@ -104,8 +104,8 @@ h2 {
 /* ACCOUNT SELECT PAGE */
 .atm_account {
     position: relative;
-padding: 45px 15px 15px;
-margin: -10px 10px -10px 10px;
+    padding: 20px 10px 10px 10px;
+    margin: -10px 10px -45px 10px;
     text-align: left;
     
     /*
@@ -134,6 +134,7 @@ border-width: 1px 0;
     letter-spacing: 1px;
 }
 
+/*
 .atm_account_chequing:after {
     content: "Chequing";
 }
@@ -141,7 +142,7 @@ border-width: 1px 0;
 .atm_account_saving:after {
     content: "Savings";
 }
-/*
+
 #atm_account_select {
 
 }

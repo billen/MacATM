@@ -101,22 +101,28 @@
       <h3 >Select account to proceed</h3>
 
       <div class="atm_account atm_account_chequing">
-      
+          <span class="">Chequing</span>
           <table id="accounts_chequing" class="table table-hover">
           <thead> 
-              <tr>
-            <th>Account #</th>
-            <th>Account balance</th>
-              </tr>
+            <tr>
+              <th>Account #</th>
+              <th colspan="4">Account balance</th>
+            </tr>
           </thead>
           <tbody>
               <tr onclick="goToPage('account')">
                 <td>123-345-67</td>
-                <td>$ 20.00</td> 
+                <td>$ 20,000.00</td> 
+                <td><span class="btn btn-default btn-sml">Withdraw</span></td> 
+                <td><span class="btn btn-default btn-sml">Deposit</td> 
+                <td><span class="btn btn-default btn-sml">Last Transaction</td> 
               </tr>
-              <tr  onclick="goToPage('account')">
-                 <td>123-450-68</td>
-                <td>$ 60.00</td> 
+              <tr onclick="goToPage('account')">
+                <td>123-450-68</td>
+                <td>$ 60.00</td>
+                <td><span class="btn btn-default btn-sml">Withdraw</td> 
+                <td><span class="btn btn-default btn-sml">Deposit</td> 
+                <td><span class="btn btn-default btn-sml">Last Transaction</td> 
               </tr>
 
           </tbody> 
@@ -125,28 +131,30 @@
       </div>
       
       <div class="atm_account atm_account_saving">
+      <span class="">Saving</span>
       <table id="accounts_savings" class="table table-hover">
-            <thead> 
-            <tr>
+      <thead> 
+        <tr>
             <th>Account #</th>
-            <th>Account balance</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr>
+            <th colspan = "4">Account balance</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr onclick="goToPage('account')">
             <td>123-345-69</td>
-            <td>$ 70.00</td> 
-            </tr>
-            <tr>
+            <td>$ 70,050.12</td> 
+            <td><span class="btn btn-default btn-sml">Withdraw</span></td> 
+            <td><span class="btn btn-default btn-sml">Deposit</span></td> 
+            <td><span class="btn btn-default btn-sml">Last Transaction</span></td> 
+        </tr>
+        <tr onclick="goToPage('account')">
             <td>123-455-60</td>
-            <td>$ 75.00</td> 
-            </tr>
-            </tr>
-            <tr>
-            <td>123-456-44</td>
-            <td>$ 8880.00</td> 
-            </tr>
-            </tbody>
+            <td>$ 75,100.00</td> 
+            <td><span class="btn btn-default btn-sml">Withdraw</span></td> 
+            <td><span class="btn btn-default btn-sml">Deposit</span></td> 
+            <td><span class="btn btn-default btn-sml">Last Transaction</span></td> 
+        </tr>
+        </tbody>
       </table>
           
       </div>
@@ -205,7 +213,7 @@
         <div href="#" class="btn btn-primary">$60</div> 
         <div href="#" class="btn btn-primary">$80</div>
       </div>  
-      <div id="deposit_custom" href="#" class="btn btn-success">CUSTOM AMOUNT</div>
+      <div id="deposit_custom" href="#" class="btn btn-success">Custom Amount</div>
   </div>
 <!-- end atm online services home container div-->
 
@@ -215,10 +223,6 @@
 <!-- start atm online services login container div-->
   <div id="atm_online_services_login" class="atm_hide atm_page">
       
-
-      <div id="atm_keypad">
-        
-      </div> 
       
   </div>
 <!-- end atm online services home container div-->
@@ -229,10 +233,6 @@
 <!-- start atm online services home container div-->
   <div id="atm_online_services_home" class="atm_hide atm_page">
       
-
-      <div id="atm_keypad">
-        
-      </div> 
       
   </div>
 <!-- end atm online services home container div-->
