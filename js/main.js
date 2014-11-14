@@ -25,6 +25,9 @@ function showAtmAccounts(){
     //console.log('showing accounts');
     $('#atm_account_select').find('#atm_account_select_wrap').remove();
     $('#atm_account_select').append(getAtmAccounts());
+       // acc.append(
+     //   $('<button id="onlineServices" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>')
+    //    .click(function(){goToPage('online_services_home');} ));
 }
     
     
@@ -48,6 +51,7 @@ var confirmEnable = false;
 
 var keepKeypadAlive = false;
 
+var currAccount = '';
 /*Page view manageer functions and variables*/
 var viewController = new PageViewManager({
     pages : {
@@ -74,10 +78,10 @@ var viewController = new PageViewManager({
             back: function(){goToPage('home')}
         },
         trans_withdraw: {
-            back: function(){goToPage('account')}
+            back: function(){goToPage('account', currAccount)}
         },
         trans_deposit: {
-            back:  function(){goToPage('account')}
+            back:  function(){goToPage('account', currAccount)}
         },     
         online_services_home: {
             back:  function(){goToPage('home')}
@@ -90,7 +94,8 @@ var viewController = new PageViewManager({
     },
     onPageShow : {
 
-        home: showAtmAccounts
+        home: showAtmAccounts,
+        account : showAtmSingleAccount
         
     },
     startPage : 'login'
@@ -102,23 +107,8 @@ var viewController = new PageViewManager({
 main helper functions for controlling calender view
 *******************************************************/
 /*Page navigation helpers*/
-function goToPage(pageName, callback, args) {
-    console.log(typeof args);
-    if(viewController.currPage == 'home') {
-        var acc_args = args;
-        if(!callback){
-            callback = function(){
-                console.log('setting callback ');
-                console.log($(viewController._pageList.getItem('account')));
-                $(viewController._pageList.getItem('account')).find('#accountNum3').html(acc_args);
-                $(pageName).find('#atm_acc_num').val();
-                
-            }
-        }
-        
-    }
-    console.log('going to page');
-    viewController.goToPage(pageName, callback);
+function goToPage(pageName, args) {
+    viewController.goToPage(pageName, args);
 }
 
 /*Page navigation helpers*/
@@ -191,15 +181,11 @@ function PageViewManager(options) {
     t._pageList = new PageList(options.pages);
     t.startPage = options.startPage;
     
-    t.goToPage = function(pageName, callback, args) {
+    t.goToPage = function(pageName, args) {
+        console.log(pageName, args);
         var ret = undefined;
-            
-        if(options.onPageShow && typeof options.onPageShow[pageName] == 'function') {
-            options.onPageShow[pageName]();
-        }
     
         if(options.pages && options.pages[pageName]){
-            console.log('pages');
             t.prevPage = t.currPage;
             t.currPage = pageName;
        
@@ -207,8 +193,6 @@ function PageViewManager(options) {
    	 	    $(options.pages[t.currPage]).show('slow').removeClass('atm_hide');
             
         }
-        
-        
 
         if(options.navBar && options.navBar[pageName]){
             showAtmNavBar(options.navBar[pageName]);
@@ -216,12 +200,9 @@ function PageViewManager(options) {
             removeAtmNavBar();
         }
 
-        if(callback && typeof callback == 'function') {
-            //console.log(callback);
-            //callback();
+        if(options.onPageShow && typeof options.onPageShow[pageName] == 'function') {
+            options.onPageShow[pageName](args);
         }
-
-        
         
     };
     
@@ -305,19 +286,20 @@ function notify (message,type) {
 /*
 * Withdraw / deposit money
 */
-function transaction (amount, accountNumber, secondAccountNumber, type, amountID){
-    
+function transaction (amount, accountNum, secondAccountNumber, type, amountID){
+    var accountNumber = currAccount;
+    console.log(accountNumber);
     switch (type) {
         case 'w':
                 
             if (secondAccountNumber != "")
             {
-                var index = parseInt(searchTextinJSON(jsonArray,accountNumber));    
+                var index = parseInt(searchTextinJSON(jsonArray,"Number",accountNumber));    
+                console.log('index' + index);
                 var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 if (amount > amountInAccount) {
                     notify("Insufficient funds","warning");
                 } else {
-                    console.log(amount);
                     if (!isNaN(amount)){
                           jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
                           $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
@@ -337,7 +319,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
             var delay=3000;//1 seconds
             setTimeout(function(){
                 notify ('Inserting Successful','success');
-                var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+                var index = parseInt(searchTextinJSON(jsonArray,"Number",accountNumber)); 
                 var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 jsonArray.accounts[index]["Amount"] = amountInAccount + amount;
                 notify ("Deposit successful","success")
@@ -350,7 +332,8 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
         case 't':
             break;
         case 'ww':
-             var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+             var index = parseInt(searchTextinJSON(jsonArray,"Number",accountNumber)); 
+            console.log('index' + index);
                 var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 if (amount > amountInAccount) {
                      notify("Insufficient funds","warning");
@@ -369,7 +352,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
 
             break;
         case 'qw':
-             var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+             var index = parseInt(searchTextinJSON(jsonArray,"Number",accountNumber)); 
                 var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 if (amount > amountInAccount) {
                      notify("Insufficient funds","warning");
@@ -388,7 +371,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
 
             break;
         default: 
-             console.log("Incorrect type used for transaction function. Use either 'w' or 'd' or 't' for withdraw, deposit, and transfer respectively");
+             //console.log("Incorrect type used for transaction function. Use either 'w' or 'd' or 't' for withdraw, deposit, and transfer respectively");
             break;
     }
 }
@@ -640,23 +623,34 @@ function getAtmAccounts() {
     
     var acc_table_cheq_body = $('<tbody />');
     var acc_table_sav_body = $('<tbody />');
-    
-    var acc_table_body_tr;
+    var count = 0;
 
     for(var profile in jsonArray) {
         for(var account in jsonArray[profile]){
-            acc_table_body_tr = $('<tr />')
-                .click(function(){goToPage('account');});
+            var accNum = jsonArray[profile][account]['Number'];
+            console.log('accNum' + accNum);
+            
+            count = count + 1;
+            var acc_table_body_tr = $('<tr id="tr'+count+'"/>');
             
             for(var prop in jsonArray[profile][account]){
                 if(prop == 'Type') continue;
-                acc_table_body_tr.append('<td>'+jsonArray[profile][account][prop]+'</td>');
+                acc_table_body_tr.append('<td>'+jsonArray[profile][account][prop]+'</td>').click(function(){
+                    
+                    //console.log(account);
+                    currAccount = $($(this).find('td')[0]).html();
+                    //console.log('this is clicking');
+                    //console.log($($(this).find('td')[0]).html());
+                    goToPage('account', currAccount);
+                    
+                });
                 
             }
             acc_table_body_tr
             .append(
                 $('<td><span class="btn btn-default btn-sml">Withdraw</td>')
                     .click(function(event){
+                        currAccount = $($(this).parent().find('td')[0]).html();
                         goToPage('trans_withdraw');
                         event.stopPropagation();
                     })
@@ -664,6 +658,7 @@ function getAtmAccounts() {
             .append(
                 $('<td><span class="btn btn-default btn-sml">Deposit</td>')
                     .click(function(event){
+                        currAccount = $($(this).parent().find('td')[0]).html();
                         goToPage('trans_deposit');
                         event.stopPropagation();
                     })
@@ -671,17 +666,22 @@ function getAtmAccounts() {
                 $('<td><span class="btn btn-default btn-sml">Quick Withdraw</td>')
                     .click(function(event){
                         goToPage('quick_withdraw');
+                        currAccount = $($(this).parent().find('td')[0]).html();
                         event.stopPropagation();
                     })
             );
                            // .append('<td><span class="btn btn-default btn-sml">Deposit</td> ')
                             //.append('<td><span class="btn btn-default btn-sml">Last Transaction</td>');
+            //console.log('click'+accNum);
             
+            //acc_table_body_tr.click(clicks);
             if(jsonArray[profile][account]['Type'] == 'Chequing') {
                 acc_table_cheq_body.append(acc_table_body_tr);
             }else {
                 acc_table_sav_body.append(acc_table_body_tr);
             }
+            
+            //$(acc_table_sav_body).find('#tr'+count).delegate('click',function(){goToPage('account', accNum);});
         }
     }
     
@@ -705,10 +705,40 @@ function printBalance() {
     setTimeout(function(){
          goToPage('login');
     },delay); 
-   
+
 }
 
 
+function getAtmSingleAccount(accNum) {
+    
+    console.log('getAtmSingleAccount' + accNum);
+    console.log('getAtmSingleAccount' + searchTextinJSON(jsonArray,'Number',accNum));
+    
+    var r_div = $('<div id="account_info_div">');
+    var accBall = jsonArray.accounts[searchTextinJSON(jsonArray,'Number',accNum)]["Amount"];
+    r_div.append('<span id="account_info_details"><h4> Account Number </h4><h3>'+accNum+'<h3/><h4> Account Balance </h4><h3>'+accBall+'<h3/></span>');
+    var l_div = $('<div id="options_div">');
+    
+    l_div.append($('<div class="btn btn-primary" >Withdraw</div> ').click(function(){goToPage('trans_withdraw');}))
+    .append($('<div class="btn btn-primary" >Deposit</div> ').click(function(){goToPage('trans_deposit');}))
+    //.append($('<div class="btn btn-primary" >Transfer</div> ').click(function(){goToPage('trans_transfer');}))
+    
+      
+    return $('<div  id="atm_single_account_wrap"/>').append('<h2>Accounts Info</h2>').append(r_div).append(l_div);
+      
+}
+ 
+function showAtmSingleAccount(accNum) {
+    console.log(accNum);
+    currAccount = accNum;
+    removeAtmSingleAccount();
+    $('#atm_single_account_view').append(getAtmSingleAccount(accNum));
+}
+
+function removeAtmSingleAccount( ) {
+    $('#atm_single_account_view').find('#atm_single_account_wrap').remove();
+    
+}
 /*
 End HTML Object/Builder functions for dynamic content/behaviour
 *************************************************************************************************************/

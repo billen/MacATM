@@ -94,6 +94,8 @@ h2 {
 
 .navbar {
     background-color:red;
+    font-size:20px;
+    color:#FFF;
 }
 
 .navbar-brand span {
