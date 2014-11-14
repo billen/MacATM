@@ -12,8 +12,7 @@ $(document).ready(function(){
     
     /*fous on accesscard inout field on page load*/
     //();
-    
- 
+
 
     addAttribute(['#accountNum1','#accountNum2','#accountNum3','#accountNum4'],jsonArray,"Number");
     addAttribute(['#amountNum1','#amountNum2','#amountNum3','#amountNum4'],jsonArray,"Amount");
@@ -21,8 +20,18 @@ $(document).ready(function(){
     addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
 });
 
+
+function showAtmAccounts(){
+    //console.log('showing accounts');
+    $('#atm_account_select').find('#atm_account_select_wrap').remove();
+    $('#atm_account_select').append(getAtmAccounts());
+}
+    
+    
+    
 /*Globals/CONSTANTS
 *************/
+
 
    /*json of mock user accounts data*/
     var jsonArray = {"accounts": [
@@ -35,8 +44,9 @@ $(document).ready(function(){
 /*parent container for the ATM*/
 var ATM_UI_WINDOW = '#atm_master_container';
 
-
 var confirmEnable = false;
+
+var keepKeypadAlive = false;
 
 /*Page view manageer functions and variables*/
 var viewController = new PageViewManager({
@@ -60,15 +70,22 @@ var viewController = new PageViewManager({
             }*/
         },
         account: {
-            back: goBackOnePage
+            back: function(){goToPage('home')}
         },
         trans_withdraw: {
-            back: goBackOnePage
+            back: function(){goToPage('account')}
         },
         trans_deposit: {
-            back: goBackOnePage
-        },
+            back:  function(){goToPage('account')}
+        },     
+        online_services_home: {
+            back:  function(){goToPage('home')}
+        }
         
+    },
+    onPageShow : {
+
+        home: showAtmAccounts
         
     },
     startPage : 'login'
@@ -80,7 +97,22 @@ var viewController = new PageViewManager({
 main helper functions for controlling calender view
 *******************************************************/
 /*Page navigation helpers*/
-function goToPage(pageName, callback) {
+function goToPage(pageName, callback, args) {
+    console.log(typeof args);
+    if(viewController.currPage == 'home') {
+        var acc_args = args;
+        if(!callback){
+            callback = function(){
+                console.log('setting callback ');
+                console.log($(viewController._pageList.getItem('account')));
+                $(viewController._pageList.getItem('account')).find('#accountNum3').html(acc_args);
+                $(pageName).find('#atm_acc_num').val();
+                
+            }
+        }
+        
+    }
+    console.log('going to page');
     viewController.goToPage(pageName, callback);
 }
 
@@ -98,10 +130,11 @@ function addString(input, targetId) {
     
 	var value = $(targetId).val();
     var string = $(input).html();
+    var max_len = $(targetId).attr('maxlength');
 
-	if (value.length + 1 <= 4){
+	if (value.length + 1 <= max_len){
 		$(targetId).val(value + string);
-		if (value.length + 1 == 4){
+		if (value.length + 1 == max_len){
 		  $('#confirmButton').removeClass('btn-inverse').addClass('btn-success');
 		  confirmEnable = true;	
 		}
@@ -151,9 +184,15 @@ function PageViewManager(options) {
     t._pageList = new PageList(options.pages);
     t.startPage = options.startPage;
     
-    t.goToPage = function(pageName, callback) {
+    t.goToPage = function(pageName, callback, args) {
         var ret = undefined;
+            
+        if(options.onPageShow && typeof options.onPageShow[pageName] == 'function') {
+            options.onPageShow[pageName]();
+        }
+    
         if(options.pages && options.pages[pageName]){
+            console.log('pages');
             t.prevPage = t.currPage;
             t.currPage = pageName;
        
@@ -162,16 +201,20 @@ function PageViewManager(options) {
             
         }
         
+        
+
         if(options.navBar && options.navBar[pageName]){
-            
             showAtmNavBar(options.navBar[pageName]);
         }else{
             removeAtmNavBar();
         }
-        
+
         if(callback && typeof callback == 'function') {
+            //console.log(callback);
             //callback();
         }
+
+        
         
     };
     
@@ -406,8 +449,6 @@ function getKeyPad(elem) {
     return  ret;  
 }
 
-var keepKeypadAlive = false;
-
 function initAtmKeyPad(inputIds/*array containing ids of input that require the key pad*/) {
     
     $(inputIds).each(function(key, value){
@@ -468,8 +509,10 @@ function getAtmNavBar(navItems/*array of nav options*/) {
                 //.append('<li class="active"><a href="javascript:console.log(\'home\')">Home</a></li>')
                 //.append('<li><a href="#">Link</a></li>'));
     
-    for(var key in navItems){
-        temp_list.append($('<li class=""><a href="#" >'+key+'</a></li>').click(navItems[key]));
+    for(var item in navItems){
+        temp_list.append(
+            $('<li class=""><a href="#" >'+item+'</a></li>').click(navItems[item])
+        );
     }
     
     temp_div.append(temp_list);
@@ -509,6 +552,79 @@ function getAtmNavBar(navItems/*array of nav options*/) {
     nav.append(nav_ul);
    
    */
+}
+
+
+function getAtmAccounts() {
+    var acc = $('<div class="atm_account atm_account_chequing">');
+    
+    var acc_table_cheq = $('<table id="accounts_chequing" class="table table-hover">');
+    
+    
+    var acc_table_sav = $('<table id="accounts_savings" class="table table-hover">');
+    
+    var acc_table_cheq_body = $('<tbody />');
+    var acc_table_sav_body = $('<tbody />');
+    
+    var acc_table_body_tr;
+
+    for(var profile in jsonArray) {
+        for(var account in jsonArray[profile]){
+            acc_table_body_tr = $('<tr />')
+                .click(function(){goToPage('account');});
+            
+            for(var prop in jsonArray[profile][account]){
+                if(prop == 'Type') continue;
+                acc_table_body_tr.append('<td>'+jsonArray[profile][account][prop]+'</td>');
+                
+            }
+            acc_table_body_tr
+            .append(
+                $('<td><span class="btn btn-default btn-sml">Withdraw</td>')
+                    .click(function(event){
+                        goToPage('trans_withdraw');
+                        event.stopPropagation();
+                    })
+            )
+            .append(
+                $('<td><span class="btn btn-default btn-sml">Deposit</td>')
+                    .click(function(event){
+                        goToPage('trans_deposit');
+                        event.stopPropagation();
+                    })
+            ).append(
+                $('<td><span class="btn btn-default btn-sml">Last Transaction</td>')
+                    .click(function(event){
+                        goToPage('trans_withdraw');
+                        event.stopPropagation();
+                    })
+            );
+                           // .append('<td><span class="btn btn-default btn-sml">Deposit</td> ')
+                            //.append('<td><span class="btn btn-default btn-sml">Last Transaction</td>');
+            
+            if(jsonArray[profile][account]['Type'] == 'Chequing') {
+                acc_table_cheq_body.append(acc_table_body_tr);
+            }else {
+                acc_table_sav_body.append(acc_table_body_tr);
+            }
+        }
+    }
+    
+    acc_table_cheq.append('<thead><tr><th>Account #</th><th colspan="4">Account balance</th></tr></thead>')
+                    .append(acc_table_cheq_body);
+    
+    acc_table_sav.append('<thead><tr><th>Account #</th><th colspan="4">Account balance</th></tr></thead>')
+                    .append(acc_table_sav_body);
+    
+    acc.append('<span class="">Chequing</span>')
+        .append(acc_table_cheq)
+        .append('<span class="">Saving</span>')
+        .append(acc_table_sav);
+    
+    acc.append(
+        $('<button id="onlineServices" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>')
+        .click(function(){goToPage('online_services_home');} ));
+    return $('<div id="atm_account_select_wrap" />').append(acc);
 }
 
 
