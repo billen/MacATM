@@ -14,15 +14,15 @@ $(document).ready(function(){
     //();
     
     /*json of mock user accounts data*/
-    var json = {
-        "Account1":[
-            {"Number":"1234567","Amount":"20.00", "Type":"Chequing"},
-            {"Number":"1234568","Amount":"60.00", "Type":"Chequing"},
-            {"Number":"1234569","Amount":"70.00", "Type":"Savings"},
-            {"Number":"1234560","Amount":"75.00", "Type":"Savings"},
-            {"Number":"1234564","Amount":"80.00", "Type":"Savings"}
-        ]
-    };
+    var jsonArray = {"accounts": [
+            {"Number":"123-45-67","Amount":"$20000", "Type":"Chequing"},
+            {"Number":"123-45-68","Amount":"$6000", "Type":"Chequing"},
+            {"Number":"123-45-69","Amount":"$7000", "Type":"Savings"},
+            {"Number":"123-45-61","Amount":"$7500", "Type":"Savings"},
+    ]};
+
+    addAttribute(['#accountNum1','#accountNum2','#accountNum3','#accountNum4'],jsonArray,"Number");
+    addAttribute(['#amountNum1','#amountNum2','#amountNum3','#amountNum4'],jsonArray,"Amount");
    
 });
 
@@ -214,6 +214,24 @@ function PageList(listItems) {
 ********************************************************
 HTML Object/Builder functions for dynamic content/behaviour
 ********************************************************/
+
+
+/*
+*  inputIDs = the ids for the html elements that you want to replace with account numbers
+*  json = The json which will contain the account numbers, and balances. JSON should be ordered aligning with the inputIDs
+*/
+
+function addAttribute(inputIDs,json,attribute) {
+    
+    data = json.accounts;
+    count = 0;
+    for (id in inputIDs) {
+        $(inputIDs[id]).html(data[count][attribute]);
+        count++;
+
+    }
+
+}
 
 function showAtmKeyPad(elem, keypadClick) {
     removeAtmKeyPad();
@@ -422,6 +440,9 @@ function getAtmNavBar(navItems/*array of nav options*/) {
    
    */
 }
+
+
+
 
 /*
 End HTML Object/Builder functions for dynamic content/behaviour
