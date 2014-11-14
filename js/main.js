@@ -283,8 +283,14 @@ function addAttribute(inputIDs,json,attribute) {
     for (id in inputIDs) {
         $(inputIDs[id]).html(data[count][attribute]);
         count++;
-
     }
+
+}
+
+function updateUI (inputID,attribute,accountNum) {
+      searchTextinJSON(jsonArray,attribute,accountNum);
+      data = jsonArray.accounts;
+      $("#"+inputID).html(data[0]["Amount"]);
 
 }
 
@@ -316,8 +322,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                           jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
                           $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
                           notify ("Funds transferred","success");
-                          addAttribute(['#online_services_account_from'],jsonArray,"Number");
-                          addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
+                          updateUI('online_services_account_balance','Number','123-45-67');
                     } else {
                         notify ("No amount to transfer was added","warning");
                 } 
@@ -336,10 +341,10 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                 var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 jsonArray.accounts[index]["Amount"] = amountInAccount + amount;
                 notify ("Deposit successful","success")
+                 updateUI('online_services_account_balance','Number','123-45-67');
                 goToPage('home');
             },delay); 
-            addAttribute(['#online_services_account_from'],jsonArray,"Number");
-            addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
+            
             
             break;
         case 't':
@@ -354,12 +359,11 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                      var delay=3000;//1 seconds
                     setTimeout(function(){
                      jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
+                     updateUI('online_services_account_balance','Number','123-45-67');
                      notify ("Withdraw Successful ","success")
                     goToPage('home');
                 },delay); 
-
-                    addAttribute(['#online_services_account_from'],jsonArray,"Number");
-    addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
+            
                  }
            
 
@@ -376,11 +380,9 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                     notify("Dispensing Money Now","success");
                      jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
                      notify ("Withdraw Successful. Logging Out ","success")
+                      updateUI('online_services_account_balance','Number','123-45-67');
                     goToPage('login');
                 },delay); 
-
-                    addAttribute(['#online_services_account_from'],jsonArray,"Number");
-                addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
                  }
            
 
