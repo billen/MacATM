@@ -88,6 +88,10 @@
       <br/>
       
       <button id="confirmButton" onclick="confirm()" class="btn btn-lg btn-success" type="button">Confirm</button>
+      <br/>
+      <br/>
+      <button id="onlineServices" onclick="goToPage('online_services_login')" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>
+
   </div>
 
 
@@ -166,7 +170,6 @@
 <!-- SINGLE ACCOUNT VIEW -->
 <!-- start atm single account view container div-->
   <div id="atm_single_account_view" class="atm_hide atm_page">
-
     <div id="account_info_div">
         <h2>Accounts Info</h2> <br/>
         <span id="account_info_details">
@@ -222,21 +225,58 @@
 <!-- ATM ONLINE SERVICES LOGIN PAGE -->
 <!-- start atm online services login container div-->
   <div id="atm_online_services_login" class="atm_hide atm_page">
-      
-      
+      <h2> Login to Online Services </h2>
+      <div class="atm_keypad_input">
+      <legend class="atm_legend">Access Card</legend>
+      <input id="onlineAccessText" class="form-control" type="text" maxlength="14" placeholder="Enter access card ID" autofocus>
+      <legend class="atm_legend">Online Password</legend>
+      <input id="onlinePinText" class="form-control" type="password" maxlength="14" placeholder="Enter pin" autofocus> 
+      </div>
+      <br/>
+      <button id="confirmButton" onclick="goToPage('online_services_home')" class="btn btn-lg btn-success" type="button">Confirm</button>
   </div>
 <!-- end atm online services home container div-->
 
 
 <!-- *********************************** -->
+<!-- SUCCESS PAGE -->
+
+  <div id="success_page" class="atm_hide atm_page">
+    
+      <h2> Success </h2>
+
+      <button id="confirmButton" onclick="goToPage('home')" class="btn btn-lg btn-success" type="button">Go to Main Menu</button>
+  </div>
+<!-- end success div-->
+
+<!-- *********************************** -->
 <!-- ATM ONLINE SERVICES HOME -->
 <!-- start atm online services home container div-->
   <div id="atm_online_services_home" class="atm_hide atm_page">
-      
+      <h2>Online Services - Transfer Funds to External Account</h2>
+      <br>
+      <h3> Transferring From: </h3>
+      <h4> Account Number :  <span id="online_services_account_from"> </span> </h3> 
+      <h4> Account Balance :   <span id="online_services_account_balance"> </span> </span> </h3> 
+      <br>
+    <div class="atm_keypad_input">
+      <legend class="atm_legend">External Account Number</legend>
+      <input id="onlineOtherAccount" class="form-control" type="text" maxlength="14" placeholder="Enter other person's account number" autofocus>
+      <legend class="atm_legend">Amount to Transfer</legend>
+      <input id="onlineAmount" class="form-control" type="text" maxlength="14" placeholder="Enter amount" autofocus>
+      </div>
+      <br/>
+      <button id="confirmButton" onclick="goToPage('success')" class="btn btn-lg btn-success" type="button">Transfer</button>
+    </div>
       
   </div>
 <!-- end atm online services home container div-->
       
+
+
+
+
+
       
   <!-- end atm master container div-->
   </div>

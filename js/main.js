@@ -2,7 +2,7 @@ $(document).ready(function(){
     console.log('loaded');
     
     /*enable key pad for the ids below*/
-    initAtmKeyPad(['#accessCardText', '#pinText']);
+    initAtmKeyPad(['#accessCardText', '#pinText','#onlineAccessText','#onlinePinText','#onlineOtherAccount','#onlineAmount']);
     
     //viewController.goToPage(viewController.startPage, $('#accessCardText').focus);
     
@@ -23,7 +23,8 @@ $(document).ready(function(){
 
     addAttribute(['#accountNum1','#accountNum2','#accountNum3','#accountNum4'],jsonArray,"Number");
     addAttribute(['#amountNum1','#amountNum2','#amountNum3','#amountNum4'],jsonArray,"Amount");
-   
+    addAttribute(['#online_services_account_from'],jsonArray,"Number");
+    addAttribute(['#online_services_account_balance'],jsonArray,"Amount");
 });
 
 /*Globals/CONSTANTS
@@ -43,6 +44,9 @@ var viewController = new PageViewManager({
         account: '#atm_single_account_view',
         trans_withdraw: '#atm_withdraw',
         trans_deposit: '#atm_deposit',
+        online_services_login: '#atm_online_services_login',
+        online_services_home: '#atm_online_services_home',
+        success: '#success_page'
         
     },
     navBar : {
@@ -231,6 +235,24 @@ function addAttribute(inputIDs,json,attribute) {
 
     }
 
+}
+
+/*
+* Withdraw / deposit money
+*/
+function transaction (amount, accountNumber, secondAccountNumber, type){
+    
+    switch (type) {
+        case 'w':
+            break;
+        case 'd':
+            break;
+        case 't':
+            break;
+        default: 
+             console.log("Incorrect type used for transaction function. Use either 'w' or 'd' or 't' for withdraw, deposit, and transfer respectively");
+            break;
+    }
 }
 
 function showAtmKeyPad(elem, keypadClick) {
