@@ -14,19 +14,24 @@ h2 {
 	font-size: 30px;
 }
 
-.atm_page
-{
+#atm_master_container {
+    margin: 0 auto;
+    margin-top:30px;
+    text-align: center;
+    width: 800px;
+    overflow: hidden;
+    margin-bottom: 100px;
+    height: 500px;
+    z-index:999999;
+}
+
+.atm_page {
 	margin: 0 auto;
 	text-align: center;
 	width: 100%;	
-    height: 400px;
-    /*overflow-y: scroll;*/
-	/*border:2px solid black;*/
-}
-
-
-.table>tbody>tr>th, .table>tbody>tr>td {
-    border-top: none;
+    height: 500px;
+	display:inline-block;
+    /*border:1px solid black;*/
 }
 
 .atm_hide {
@@ -39,20 +44,34 @@ h2 {
     display:inherit;
 }
 
+/*
+.table>tbody>tr>th, .table>tbody>tr>td {
+    border-top: none;
+}
+*/
 
-/* KEYPAD */
+/* ATM KEYPAD */
 #atm_keypad {
 	margin: 0 auto;
 	text-align: center;
 	width:100%;
-    background-color: rgba(110, 112, 114, 0.72);
+    background-color: rgba(191, 192, 193, 0.9);
     border: 1px solid #696969;
+    
+}
+
+#atm_keypad table {
+    width: 100%;
+    border-collapse: separate;
+    
 }
 
 #atm_keypad table tr td{
-	width:33.33%;
+	width:30.33%;
+    padding: 10px;
+    margin: 1px 1px 1px 1px;
+    border-spacing: 5px;
 }
-
 
 #atm_keypad #captionID {	
 	text-align:center;
@@ -77,23 +96,52 @@ h2 {
     width: 60%;
     margin: 0 auto;
 }
+/* End ATM key pad */
 
 
 /* APPLIES TO SINGLE PAGES */
 
-/* MASTER CONTAINER */
-#atm_master_container {
-    margin: 0 auto;
-    margin-top:30px;
-    text-align: center;
-    width: 650px;
-    overflow: hidden;
-    height: 500px;
-    z-index:999999;
+/* ACCOUNT SELECT PAGE */
+.atm_account {
+    position: relative;
+padding: 45px 15px 15px;
+margin: -10px 10px -10px 10px;
+    text-align: left;
+    
+    /*
+border-color: #E5E5E5 #EEE #EEE;
+border-style: solid;
+border-width: 1px 0;
+    
+    margin-right: 0;
+    margin-left: 0;
+    background-color: #FFF;
+    border-color: #DDD;
+    border-width: 1px;
+    border-radius: 4px 4px 0 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    */
+}
+.atm_account:after {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #959595;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
+.atm_account_chequing:after {
+    content: "Chequing";
+}
 
-/* ACCOUNT SELECT PAGE */
+.atm_account_saving:after {
+    content: "Savings";
+}
+/*
 #atm_account_select {
 
 }
@@ -106,25 +154,12 @@ h2 {
 	text-align: left;
 	padding-left: 10px;
 }
-
-#atm_account_select table {
-
-}
-
-#atm_account_select #accounts_savings {
-
-}
-
-#atm_account_select #accounts_chequing{
-
-}
-
-
+*/
 /* SINGLE ACCOUNT PAGE */
 #atm_single_account_view {
-	height: 400px;
+	/*height: 400px;
 	padding:0;
-	width:600px;
+	width:600px;*/
 }
 
 #account_info_div {
@@ -137,7 +172,6 @@ h2 {
 }
 
 #options_div {
-	
 	width:49%;
 	height:100%;
 	margin:0 ;
@@ -157,7 +191,8 @@ h2 {
 
 /* WITHDRAW PAGE */
 #atm_withdraw {
-	height:400px;
+    /*
+	height:400px;*/
 }
 
 #withdraw div {
@@ -165,7 +200,7 @@ h2 {
 	height:100px;
 	margin: 20px;
 	margin-top:40px;
-	display:block-inline;
+	display:inline-block;
 }
 
 #withdraw_custom {
@@ -177,7 +212,8 @@ h2 {
 
 /* DEPOSIT PAGE */
 #atm_deposit {
-	height:400px;
+    /*
+	height:400px;*/
 }
 
 #deposit div {
@@ -185,7 +221,7 @@ h2 {
 	height:100px;
 	margin: 20px;
 	margin-top:40px;
-	display:block-inline;
+	display:inline-block;
 }
 
 #deposit_custom {
@@ -193,6 +229,19 @@ h2 {
 	height:50px;
 	position:relative;
 	top:100px;
+}
+
+#atm_account_select table {
+
+}
+
+#atm_account_select #accounts_savings {
+
+}
+
+#atm_account_select #accounts_chequing{
+
+}
 
 /*Grid.css*/
 .row {    
@@ -216,4 +265,16 @@ h2 {
 }
 
 
+.atm_legend{
+    border:0px;
+    width:auto;
+    display:inline-block;
+    margin:5px 0px 5px 0px;/*top right bottom left*/
+    font-size: inherit;
+    
+}
+
+.table-hover{
+    cursor:pointer;
+}
 

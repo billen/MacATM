@@ -4,8 +4,14 @@ $(document).ready(function(){
     /*enable key pad for the ids below*/
     initAtmKeyPad(['#accessCardText', '#pinText']);
     
-    /*fous on accesscard inout field on page load*/
+    //viewController.goToPage(viewController.startPage, $('#accessCardText').focus);
+    
+    
     $('#accessCardText').focus();
+    
+    
+    /*fous on accesscard inout field on page load*/
+    //();
     
     /*json of mock user accounts data*/
     var json = {
@@ -15,9 +21,19 @@ $(document).ready(function(){
             {"Number":"1234569","Amount":"70.00", "Type":"Savings"},
             {"Number":"1234560","Amount":"75.00", "Type":"Savings"},
             {"Number":"1234564","Amount":"80.00", "Type":"Savings"}
-    ]};
+        ]
+    };
    
 });
+
+/*Globals/CONSTANTS
+*************/
+
+/*parent container for the ATM*/
+var ATM_UI_WINDOW = '#atm_master_container';
+
+
+var confirmEnable = false;
 
 /*Page view manageer functions and variables*/
 var viewController = new PageViewManager({
@@ -29,23 +45,47 @@ var viewController = new PageViewManager({
         trans_deposit: '#atm_deposit',
         
     },
-    
+    navBar : {
+        home: {
+            /*logout: function(){
+                goToPage('login');
+            },
+            account: function(){
+                goToPage('trans_withdraw');
+            }*/
+        },
+        account: {
+            back: goBackOnePage
+        },
+        trans_withdraw: {
+            back: goBackOnePage
+        },
+        trans_deposit: {
+            back: goBackOnePage
+        },
+        
+        
+    },
     startPage : 'login'
                                      
 });
 
+
+/*
+main helper functions for controlling calender view
+*******************************************************/
 /*Page navigation helpers*/
-function goToPage(pageName) {
-    viewController.goToPage(pageName);
+function goToPage(pageName, callback) {
+    viewController.goToPage(pageName, callback);
 }
 
 /*Page navigation helpers*/
-function goBackOnePage() {
-    viewController.goBack();
+function goBackOnePage(callback) {
+    viewController.goBack(callback);
 }
 
-
-var confirmEnable = false;
+/*end main helper functions for controlling calender view
+*****************************************************/
 
 function addString(input, targetId) {
     
@@ -53,8 +93,6 @@ function addString(input, targetId) {
     
 	var value = $(targetId).val();
     var string = $(input).html();
-    
-    console.log(value);
 
 	if (value.length + 1 <= 4){
 		$(targetId).val(value + string);
@@ -79,14 +117,25 @@ function cancel (targetId) {
 	 $('#confirmButton').addClass('btn-inverse').removeClass('btn-success');
 }
 
+/*
+******************************************************
+helper function for authenticating login
+*******************************************************/
 function confirm () {
 	value = $('#pinText').val();
 	//if (value.length == 4 && confirmEnable == true){	
 		goToPage("home");
 	//} 
 }
+/*
+End Globals/CONSTANTS
+*************************************************************************************************************/
 
 
+/*
+******************************************************
+Page navigation classes/functions
+*******************************************************/
 
 function PageViewManager(options) {
     var t = this;
@@ -95,15 +144,30 @@ function PageViewManager(options) {
     t.nextPage = t.currPage;
     t.prevPage = t.currPage;
     t._pageList = new PageList(options.pages);
+    t.startPage = options.startPage;
     
-    t.goToPage = function(pageName) {
+    t.goToPage = function(pageName, callback) {
+        var ret = undefined;
         if(options.pages && options.pages[pageName]){
             t.prevPage = t.currPage;
             t.currPage = pageName;
        
-            $(options.pages[t.prevPage]).toggle('slide');
-   	 	    $(options.pages[t.currPage]).show().removeClass('atm_hide');
+            $(options.pages[t.prevPage]).hide();//toggle('slide');
+   	 	    $(options.pages[t.currPage]).show('slow').removeClass('atm_hide');
+            
         }
+        
+        if(options.navBar && options.navBar[pageName]){
+            
+            showAtmNavBar(options.navBar[pageName]);
+        }else{
+            removeAtmNavBar();
+        }
+        
+        if(callback && typeof callback == 'function') {
+            //callback();
+        }
+        
     };
     
     t.goBack = function(){
@@ -142,15 +206,42 @@ function PageList(listItems) {
     
     t.setList(listItems);
 }
+/*
+******************************************************************************************/
 
-/*parent container for the ATM*/
-var ATM_UI_WINDOW = '#atm_master_container';
+
+/*
+********************************************************
+HTML Object/Builder functions for dynamic content/behaviour
+********************************************************/
+
+function showAtmKeyPad(elem, keypadClick) {
+    removeAtmKeyPad();
+    var keyPad = $(getKeyPad(elem));
+    
+    $(keyPad).click(keypadClick);
+    
+    $(elem).parent().append(keyPad);
+}
+
+function removeAtmKeyPad() {
+    $('#atm_keypad_span').remove();
+}
+
+function showAtmNavBar(navItems/*object containing nav bar and callback function*/) {
+    removeAtmNavBar();
+    $('#atm_nav_bar').append(getAtmNavBar(navItems));
+}
+
+function removeAtmNavBar() {
+    $('#atm_nav_bar').find('.navbar').remove();
+}
 
 function getKeyPad(elem) {
     /*the ID of the input elemnt to append keypad input to*/
     var targetElemId = $(elem).attr('id');
     
-    var keyPad = $('<table class = "table table-bordered"/>');
+    var keyPad = $('<table class = ""/>');
     
     /*num is the key pad number starting from 1*/
     var num = 1;
@@ -162,7 +253,7 @@ function getKeyPad(elem) {
         row = $('<tr />');
         
         for(var c = 0; c < 3; c++){
-            var e = $('<td />');
+            var e = $('<td class="btn btn-info"/>');
             e.html(num);
             num = num + 1;
             $(e).click(function(){
@@ -180,15 +271,16 @@ function getKeyPad(elem) {
     
     row = $('<tr  />');
     
-    var e = $('<td />');
-    e.html("Correct");
+    
+    var e = $('<td class="btn btn-danger"/>');
+    e.html("Clear");
     $(e).click(function(){
-        correct(targetElemId);
+        cancel(targetElemId);
     });
         
     $(row).append(e);
     
-    e = $('<td />');
+    e = $('<td class="btn btn-info"/>');
     e.html(0);
     $(e).click(function(){
         addString(this, targetElemId);
@@ -196,10 +288,10 @@ function getKeyPad(elem) {
         
     $(row).append(e);
     
-    e = $('<td />');
-    e.html("Cancel");
+    e = $('<td class="btn btn-warning"/>');
+    e.html("Correct");
     $(e).click(function(){
-        cancel(targetElemId);
+        correct(targetElemId);
     });
         
     $(row).append(e);
@@ -212,7 +304,7 @@ function getKeyPad(elem) {
       <button type="button" class="btn btn-default">Or do this</button>
     </div>*/
         
-    var ret = $('<span id="atm_keypad_span"/>').append($('<div id="atm_keypad" />')
+    var ret = $('<span id="atm_keypad_span"/>').append($('<div id="atm_keypad" class="alert"/>')
                                                        .append('<button type="button" class="close" onclick="removeAtmKeyPad()"><span >×&nbsp;&nbsp;</span><span class="sr-only">Close</span></button>')
                                                        .append(keyPad));
     
@@ -228,18 +320,6 @@ function getKeyPad(elem) {
 
 var keepKeypadAlive = false;
 
-function showAtmKeyPad(elem, keypadClick){
-    var keyPad = $(getKeyPad(elem));
-    
-    $(keyPad).click(keypadClick);
-    
-    $(elem).parent().append(keyPad);
-}
-
-function removeAtmKeyPad(){
-    $('#atm_keypad_span').remove();
-}
-
 function initAtmKeyPad(inputIds/*array containing ids of input that require the key pad*/) {
     
     $(inputIds).each(function(key, value){
@@ -254,7 +334,8 @@ function initAtmKeyPad(inputIds/*array containing ids of input that require the 
             
             keepKeypadAlive = true;
         })
-        .focusout(function(){
+        .focusout(function(event){
+            //console.log(event);
             keepKeypadAlive = false;
         });
     });
@@ -269,3 +350,80 @@ function initAtmKeyPad(inputIds/*array containing ids of input that require the 
         }
     });
 }
+
+/*ATM nav bar*/
+function getAtmNavBar(navItems/*array of nav options*/) {
+    
+    var nav = $('<nav class="navbar navbar-default" role="navigation">');
+    
+    var temp_div_container = $('<div class="container">');
+    
+    var temp_div = $('<div class="navbar-header">')
+        .append(
+            $('<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-7">')
+                .append('<span class="sr-only">Toggle navigation</span>')
+                .append('<span class="icon-bar"></span>')
+                .append('<span class="icon-bar"></span>')
+                .append('<span class="icon-bar"></span>'))
+        .append($('<a class="navbar-brand" href="" title="logout"><span style="width: 150px;white-space:wrap;">Return your card</a>')
+                .click(function(){goToPage('login');})
+                .mouseover(function(){$(this).css('color', 'green')})
+                .mouseout(function(){$(this).css('color', '#777')})
+               
+               );
+    
+    
+    temp_div_container.append(temp_div);  
+    
+    temp_div = $('<div class="collapse navbar-collapse" >');
+    var temp_list = $('<ul class="nav navbar-nav">');
+                //.append('<li class="active"><a href="javascript:console.log(\'home\')">Home</a></li>')
+                //.append('<li><a href="#">Link</a></li>'));
+    
+    for(var key in navItems){
+        temp_list.append($('<li class=""><a href="#" >'+key+'</a></li>').click(navItems[key]));
+    }
+    
+    temp_div.append(temp_list);
+    temp_div_container.append(temp_div);  
+    nav.append(temp_div_container);
+    
+    return nav;
+            
+            
+          //  <li><a href="#">Link</a></li>
+          //</ul>
+        //</div><!-- /.navbar-collapse -->
+      //</div>
+            
+            
+      /*
+    var nav = $('<div class="container-fluid">');
+
+    //nav.append($('<div class="navbar-header"><a class="navbar-brand" href="#">Home</a></div>'));
+
+    //nav.append($('<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">'));
+
+    var nav_ul = $('<ul class="nav navbar-nav navbar-right">')
+        
+        .append($('<li class="dropdown">')
+                .append($('<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>'))
+                .append($('<ul class="dropdown-menu" role="menu"><li><a href="#">Action</a></li></ul>')))
+                  
+       // </li>
+                  
+        .append($('<li><a href="#">Link</a></li>'));
+     // </ul>
+        
+   // </div><!-- /.navbar-collapse -->
+ // </div><!-- /.container-fluid -->
+//</nav>
+    nav.append(nav_ul);
+   
+   */
+}
+
+/*
+End HTML Object/Builder functions for dynamic content/behaviour
+*************************************************************************************************************/
+
