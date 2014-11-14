@@ -8,11 +8,13 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/main.css" rel="stylesheet">
+   
 
    
     <!-- Notify CSS -->
     <link href="css/bootstrap-notify.css" rel="stylesheet">
+
+     <link href="css/main.css" rel="stylesheet">
 
     
 
@@ -109,6 +111,9 @@
   <div id="atm_account_select" class="atm_hide atm_page">
        
       <h3 >Select account or operation to proceed</h3>
+
+        <button id="onlineServices" onclick="goToPage('online_services_home')" class="btn btn-lg btn-warning" type="button">Transfer Services</button>
+        <button id="printBalanceButton" onclick="printBalance()" class="btn btn-lg btn-warning" type="button">Print Balance</button>
       
   </div>
 <!-- end atm online services home container div-->
@@ -141,10 +146,11 @@
   <div id="atm_withdraw" class="atm_hide atm_page">
       <h2>Click or Enter Withdraw Amount</h2>
       <div id="withdraw">
-        <div href="#" class="btn btn-primary">$20</div> 
-        <div href="#" class="btn btn-primary">$40</div> 
-        <div href="#" class="btn btn-primary">$60</div> 
-        <div href="#" class="btn btn-primary">$80</div>
+       <div onclick="transaction(20,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$20</span></div> 
+        <div onclick="transaction(40,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$40</span></div> 
+        <div onclick="transaction(60,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$60</span></div> 
+        <div onclick="transaction(80,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$80</span></div> 
+        <div onclick="transaction(100,'123-45-67','','ww','');" class="btn btn-primary"><span class="moneyAmount">$100</span></div> 
       </div>  
       <div id="withdraw_custom" href="#" class="btn btn-success">CUSTOM AMOUNT</div>
   </div>
@@ -158,10 +164,11 @@
   <div id="atm_deposit" class="atm_hide atm_page">
       <h2> Click or Enter Deposit Amount </h2>
       <div id="deposit">
-        <div href="#" class="btn btn-primary">$20</div> 
-        <div href="#" class="btn btn-primary">$40</div> 
-        <div href="#" class="btn btn-primary">$60</div> 
-        <div href="#" class="btn btn-primary">$80</div>
+        <div onclick="transaction(20,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$20</span></div> 
+        <div onclick="transaction(40,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$40</span></div> 
+        <div onclick="transaction(60,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$60</span></div> 
+        <div onclick="transaction(80,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$80</span></div> 
+        <div onclick="transaction(100,'123-45-67','','d','');" class="btn btn-primary"><span class="moneyAmount">$100</span></div> 
       </div>  
       <div id="deposit_custom" href="#" class="btn btn-success">Custom Amount</div>
   </div>

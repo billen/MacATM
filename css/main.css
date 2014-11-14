@@ -92,6 +92,14 @@ h2 {
 }
 
 
+.navbar {
+    background-color:red;
+}
+
+.navbar-brand span {
+    color: #FFF;
+}
+
 .atm_keypad_input {
     width: 60%;
     margin: 0 auto;
@@ -133,6 +141,11 @@ border-width: 1px 0;
     text-transform: uppercase;
     letter-spacing: 1px;
 }
+
+#printBalanceButton {
+    left: 50px;
+
+} 
 
 /*
 .atm_account_chequing:after {
@@ -202,6 +215,8 @@ border-width: 1px 0;
 	margin: 20px;
 	margin-top:40px;
 	display:inline-block;
+    vertical-align: center;
+    line-height: 80px;
 }
 
 #withdraw_custom {
@@ -223,7 +238,11 @@ border-width: 1px 0;
 	margin: 20px;
 	margin-top:40px;
 	display:inline-block;
+    vertical-align: center;
+    line-height: 80px;
 }
+
+
 
 #deposit_custom {
 	width:200px;
@@ -231,6 +250,7 @@ border-width: 1px 0;
 	position:relative;
 	top:100px;
 }
+
 
 #atm_account_select table {
 
@@ -279,3 +299,9 @@ border-width: 1px 0;
     cursor:pointer;
 }
 
+#deposit .moneyAmount {
+    font-size: 30px;
+}
+#withdraw .moneyAmount {
+    font-size: 30px;
+}

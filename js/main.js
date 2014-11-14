@@ -35,7 +35,7 @@ function showAtmAccounts(){
 
    /*json of mock user accounts data*/
     var jsonArray = {"accounts": [
-            {"Number":"123-45-67","Amount":"2000", "Type":"Chequing"},
+            {"Number":"123-45-67","Amount":"100", "Type":"Chequing"},
             {"Number":"123-45-68","Amount":"6000", "Type":"Chequing"},
             {"Number":"123-45-69","Amount":"7000", "Type":"Savings"},
             {"Number":"123-45-61","Amount":"7500", "Type":"Savings"},
@@ -157,7 +157,7 @@ function cancel (targetId) {
 
 /*
 ******************************************************
-helper function for authenticating login
+helper functions
 *******************************************************/
 function confirm () {
 	value = $('#pinText').val();
@@ -165,6 +165,8 @@ function confirm () {
 		goToPage("home");
 	//} 
 }
+
+
 /*
 End Globals/CONSTANTS
 *************************************************************************************************************/
@@ -300,7 +302,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
             if (secondAccountNumber != "")
             {
                 var index = parseInt(searchTextinJSON(jsonArray,accountNumber));    
-                var amountInAccount = jsonArray.accounts[index]["Amount"];
+                var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
                 if (amount > amountInAccount) {
                     notify("Insufficient funds","warning");
                 } else {
@@ -308,7 +310,7 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                     if (!isNaN(amount)){
                           jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
                           $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
-                          notify ("Funds transferred","success")
+                          notify ("Funds transferred","success");
                     } else {
                         notify ("No amount to transfer was added","warning");
                 } 
@@ -319,8 +321,36 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
          
             break;
         case 'd':
+            notify ('Insert Money Please','success');
+            var delay=3000;//1 seconds
+            setTimeout(function(){
+                notify ('Inserting Successful','success');
+                var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+                var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
+                jsonArray.accounts[index]["Amount"] = amountInAccount + amount;
+                notify ("Deposit successful","success")
+                goToPage('home');
+            },delay); 
+            
             break;
         case 't':
+            break;
+        case 'ww':
+             var index = parseInt(searchTextinJSON(jsonArray,accountNumber)); 
+                var amountInAccount = parseInt(jsonArray.accounts[index]["Amount"]);
+                if (amount > amountInAccount) {
+                     notify("Insufficient funds","warning");
+                 } else {
+                     notify("Dispensing Money Now","success");
+                     var delay=3000;//1 seconds
+                    setTimeout(function(){
+                     jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
+                     notify ("Withdraw Successful ","success")
+                    goToPage('home');
+                },delay); 
+                 }
+           
+
             break;
         default: 
              console.log("Incorrect type used for transaction function. Use either 'w' or 'd' or 't' for withdraw, deposit, and transfer respectively");
@@ -444,7 +474,7 @@ function getKeyPad(elem) {
     var _left = $(ATM_UI_WINDOW).offset().left + 50; // atm window offset + 5px for padding;
     var _width = $(ATM_UI_WINDOW).outerWidth() - 100; //atm window width - 5 for padding  - 5 to correct for left offset
     
-    $(ret).css({position: 'absolute', top: (_top+'px') , left: (_left+'px'), margin: '0', width: (_width+'px'), height: 'auto'});
+   // $(ret).css({position: 'absolute', top: (_top+'px') , left: (_left+'px'), margin: '0', width: (_width+'px'), height: 'auto'});
     
     return  ret;  
 }
@@ -495,13 +525,13 @@ function getAtmNavBar(navItems/*array of nav options*/) {
                 .append('<span class="icon-bar"></span>')
                 .append('<span class="icon-bar"></span>'))
         .append(
-            $('<a class="navbar-brand" href="" title="logout"><span style="width: 150px;white-space:wrap;">Return your card</a>')
+            $('<a class="navbar-brand" href="" title="logout"><span>CARD INSERTED - EJECT YOUR CARD</span></a>')
                 .click(function(){goToPage('login');})
                 .mouseover(function(){$(this).css('color', 'green');})
-                .mouseout(function(){$(this).css('color', '#777');})
+                .mouseout(function(){$(this).css('color', '#FFF');})
                
                );
-    
+       
     temp_div_container.append(temp_div);  
     
     temp_div = $('<div class="collapse navbar-collapse" >');
@@ -593,7 +623,7 @@ function getAtmAccounts() {
                         event.stopPropagation();
                     })
             ).append(
-                $('<td><span class="btn btn-default btn-sml">Last Transaction</td>')
+                $('<td><span class="btn btn-default btn-sml">Quick Withdraw</td>')
                     .click(function(event){
                         goToPage('trans_withdraw');
                         event.stopPropagation();
@@ -621,13 +651,17 @@ function getAtmAccounts() {
         .append('<span class="">Saving</span>')
         .append(acc_table_sav);
     
-    acc.append(
-        $('<button id="onlineServices" class="btn btn-lg btn-warning" type="button">Go to Online Services</button>')
-        .click(function(){goToPage('online_services_home');} ));
     return $('<div id="atm_account_select_wrap" />').append(acc);
 }
 
-
+function printBalance() {
+    notify ('Printing Balance','success');
+     var delay=3000;//1 seconds
+    setTimeout(function(){
+         goToPage('login');
+    },delay); 
+   
+}
 
 
 /*
