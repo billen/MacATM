@@ -238,11 +238,11 @@ function addAttribute(inputIDs,json,attribute) {
 
 }
 
-function notify (message) {
+function notify (message,type) {
     $('.top-right').notify({
                      message: { text: message },
                      fadeOut: { enabled: true, delay: 3000 },
-                     type:"warning"
+                     type:type
                   }).show();
 }
 
@@ -259,14 +259,19 @@ function transaction (amount, accountNumber, secondAccountNumber, type, amountID
                 var index = parseInt(searchTextinJSON(jsonArray,accountNumber));    
                 var amountInAccount = jsonArray.accounts[index]["Amount"];
                 if (amount > amountInAccount) {
-                    notify("Insufficient funds");
+                    notify("Insufficient funds","warning");
                 } else {
-                    if (amount != "NaN")
-                        jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
-                        $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
+                    console.log(amount);
+                    if (!isNaN(amount)){
+                          jsonArray.accounts[index]["Amount"] = amountInAccount - amount;
+                          $('#'+amountID).html(jsonArray.accounts[index]["Amount"]);
+                          notify ("Funds transferred","success")
+                    } else {
+                        notify ("No amount to transfer was added","warning");
                 } 
+                    }
             }  else {
-                notify("Account Number missing");
+                notify("Account Number missing","warning");
             }
          
             break;

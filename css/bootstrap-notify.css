@@ -1,6 +1,8 @@
 .notifications {
-  position: fixed;
+  position: relative;
   z-index: 9999;
+    margin: 0 auto;
+  text-align: center;
 }
 
 /* Positioning */ 
@@ -26,6 +28,9 @@
 
 /* Notification Element */
 .notifications > div {
-  position: relative;
-  margin: 5px 0px;
+  position: absolute;
+  margin: 0 auto;
+  left: 30px;
+  text-align: center;
+  width: 400px;
 }
